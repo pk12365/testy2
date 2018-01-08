@@ -199,7 +199,7 @@ var commands = {
 			}
 		}
 	},
-	"play": {
+	"resume": {
 		"usage": "",
 		"description": "Resumes the current song",
 		"process": function(message, args){
