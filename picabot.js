@@ -463,7 +463,7 @@ var playSong = function(message, connection){
 	var currentSong = songQueue[currentSongIndex];
 	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
 	dispatcher = connection.playStream(stream);
-	volume: 50
+	volume: 100
 	botChannel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
 	//bot.user.setGame(currentSong.title);
 	//Workaround since above wouldn't work
