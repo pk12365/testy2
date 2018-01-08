@@ -29,7 +29,7 @@ var commands = {
 					commandList += `\`${commandKeys[i]}\`, `;
 				}
 				commandList += `and \`${commandKeys[commandKeys.length - 1]}\``;
-				botChannel.send("My current commands are: " + commandList, {reply: message});
+			        message.author.send("My current commands are: " + commandList, {reply: message});
 				botChannel.send(`You can use \`${prefix}help <command>\` to learn more about a command!`);
 			} else{
 				var helpList = "";
