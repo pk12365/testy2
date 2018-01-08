@@ -30,7 +30,6 @@ var commands = {
 				}
 				commandList += `and \`${commandKeys[commandKeys.length - 1]}\``;
 			        message.author.send("My current commands are: " + commandList, {reply: message});
-				botChannel.send(`You can use \`${prefix}help <command>\` to learn more about a command!`);
 			} else{
 				var helpList = "";
 				if(args[0] === "-a" || args[0] === "--all"){
@@ -162,7 +161,7 @@ var commands = {
 			}
 		}
 	},
-	"yt": {
+	"play": {
 		"usage": "<query>",
 		"description": "Searches for a youtube video to add to the song queue",
 		"process": function(message, args){
