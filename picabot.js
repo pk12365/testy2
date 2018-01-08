@@ -50,64 +50,6 @@ var commands = {
 			}
 		}
 	},
-	"bot": {
-		"usage": "",
-		"description": "Tells you information about the bot",
-		"process": function(message, args){
-			botChannel.send("I am a discord bot for didney worl who has an appetite for non-nutritive substances", {reply: message});
-			botChannel.send("If you have any suggestions or command ideas for me tell @Crumster or your local amin");
-		}
-	},
-	"ping": {
-		"usage": "",
-		"description": "Pings the bot, useful for seeing if it's alive",
-		"process": function(message, args){
-			botChannel.send("Pong :ping_pong:", {reply: message});
-		}
-	},
-	"roll": {
-		"usage": "<amount>d<sides>+<modifier>",
-		"description": "Rolls DnD style dice",
-		"process": function(message, args){
-			if(Math.floor(Math.random() * 100 + 1) === 1){
-				botChannel.send("You tried to roll a `die` :game_die: and got: `rick`", {reply: message});
-				botChannel.send("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-				return;
-			}
-			if(args.length === 0){
-				botChannel.send(`You rolled \`1d6\` :game_die: and got: \`${Math.floor(Math.random() * 6 + 1)}\``, {reply: message});
-			} else{
-				for(var i = 0; i < args.length; i++){
-					var regex = args[i].match(/^(\d*)d(\d+)\+?(\d*)$/);
-					if(regex === null){
-						botChannel.send(`\`${args[i]}\` is not a valid die`, {reply: message});
-					} else{
-						if(regex[1] === "") regex[1] = 1;
-						if(regex[3] === "") regex[3] = 0;
-						var rolls = "(";
-						var roll;
-						var sum = 0;
-						for(var j = 0; j < regex[1] - 1; j++){
-							roll = Math.floor(Math.random() * Number.parseInt(regex[2]) + 1);
-							sum += roll;
-							rolls += roll + ", ";
-						}
-						roll = Math.floor(Math.random() * Number.parseInt(regex[2]) + 1);
-						sum += roll;
-						rolls += roll + ") + " + regex[3] + " = " + (sum + Number.parseInt(regex[3]));
-						botChannel.send(`You rolled \`${args[i]}\` :game_die: and got: \`${rolls}\``, {reply: message});
-					}
-				}
-			}
-		}
-	},
-	"8ball": {
-		"usage": "",
-		"description": "Asks a magic 8ball for a fortune",
-		"process": function(message, args){
-			botChannel.send(fortunes[Math.floor(Math.random() * fortunes.length)], {reply: message});
-		}
-	},
 	"save": {
 		"usage": "<key> <message>",
 		"description": "Saves a personalized message with a given key",
