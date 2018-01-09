@@ -49,118 +49,6 @@ var commands = {
 			}
 		}
 	},
-	"save": {
-		"usage": "<key> <message>",
-		"description": "Saves a personalized message with a given key",
-		"process": function(message, args){
-			message.Channel.send("**Disclaimer:** your message will not be permanantly saved and will delete upon bot restart (for now)", {reply: message});
-			if(args.length < 2){
-				message.Channel.send(`Save a message with \`${prefix}save <key> <message>\``, {reply: message});
-				return;
-			}
-			var key = args[0];
-			var messageToSave = "";
-			for(var i = 0; i < args.length - 2; i++){
-				messageToSave += args[i + 1] + " ";
-			}
-			messageToSave += args[args.length - 1];
-			fs.readFile("save.json", "utf8", function(err, data){
-				if(err) throw err;
-				var save = JSON.parse(data);
-				if(save[message.author.username] === undefined){
-					save[message.author.username] = {};
-				}
-				save[message.author.username][key] = messageToSave;
-				fs.writeFile("save.json", JSON.stringify(save), "utf8", function(err){
-					if(err) throw err;
-					message.Channel.send(`Your message has been saved as \`${key}\`! :tada:`, {reply: message});
-				});
-			});
-		}
-	},
-	"recall": {
-		"usage": "<key>",
-		"description": "Lists your saved messages or recalls a saved message with a given key",
-		"process": function(message, args){
-			fs.readFile("save.json", "utf8", function(err, data){
-				if(err) throw err;
-				var save = JSON.parse(data);
-				if(args.length === 0){
-					var messageKeys;
-					var savedMessages = "";
-					try{
-						messageKeys = Object.keys(save[message.author.username]);
-					} catch(e){
-						message.channel.send("You have no saved messages, try saving one!", {reply: message});
-						return;
-					}
-					if(messageKeys.length === 0){
-						message.channel.send("You have no saved messages, try saving one!", {reply: message});
-						return;
-					}
-					for(var i = 0; i < messageKeys.length - 1; i++){
-						savedMessages += messageKeys[i] + ", ";
-					}
-					savedMessages += messageKeys[messageKeys.length - 1];
-					message.channel.send("Your saved messages are: " + savedMessages, {reply: message});
-				} else{
-					var key = args[0];
-					var recalledMessage;
-					try{
-						recalledMessage = save[message.author.username][key];
-					} catch(e){
-						message.channel.send(`You don't have a saved message with the key \`${key}\``, {reply: message});
-						return;
-					}
-					message.channel.send(recalledMessage, {reply: message});
-				}
-			});
-		}
-	},
-	"delete": {
-		"usage": "<key>",
-		"description": "Deletes a saved message with a given key",
-		"process": function(message, args){
-			fs.readFile("save.json", "utf8", function(err, data){
-				if(err) throw err;
-				var save = JSON.parse(data);
-				if(args.length === 0){
-					message.channel.send(`Delete a saved message with \`${prefix}delete <key>\``, {reply: message});
-					return;
-				} else{
-					var key = args[0];
-					try{
-						delete save[message.author.username][key];
-					} catch(e){
-						message.channel.send(`You don't have a saved message with the key \`${key}\``, {reply: message});
-						return;
-					}
-					fs.writeFile("save.json", JSON.stringify(save), "utf8", function(err){
-						if(err) throw err;
-						message.channel.send(`Your message \`${key}\` has been deleted! :tada:`, {reply: message});
-					});
-				}
-			});
-		}
-	},
-	"insult": {
-		"usage": "",
-		"description": "(NOT DONE) Call the bot to your voice channel to deliver a special insult",
-		"process": function(message, args){
-			message.channel.send("There are currently no insults :sob:", {reply: message});
-		}
-	},
-	"addsong": {
-		"usage": "<link>",
-		"description": "Adds a song to the song queue via a youtube link",
-		"process": function(message, args){
-			if(message.member.voiceChannel !== undefined){
-				addSong(message, args[0]);
-			} else{
-				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
-			}
-		}
-	},
 	"play": {
 		"usage": "<query>",
 		"description": "Searches for a youtube video to add to the song queue",
@@ -264,7 +152,7 @@ var commands = {
 			}
 		}
 	},
-	"next": {
+	"skip": {
 		"usage": "<amount>",
 		"description": "Skips ahead in the queue by a certain amount of songs",
 		"process": function(message, args){
@@ -415,7 +303,7 @@ var commands = {
 			}
 		}
 	},
-	"music": {
+	"queue": {
 		"usage": "",
 		"description": "Gives you a list of the songs currently in the queue",
 		"process": function(message, args){
