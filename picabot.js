@@ -52,7 +52,6 @@ var commands = {
 	"play": {
 		"usage": "<query>",
 		"description": "Searches for a youtube video to add to the song queue",
-                "aliases": ["p"],
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
 				if(args.length > 0){
