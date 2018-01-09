@@ -366,7 +366,6 @@ var playSong = function(message, connection){
 				if(songQueue.length === 0){
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
-					bot.user.setPresence({ game: { name: "", type: 0 } });
 					message.member.voiceChannel.leave();
 				} else{
 					setTimeout(function(){
