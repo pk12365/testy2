@@ -352,9 +352,6 @@ var playSong = function(message, connection){
 	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
 	dispatcher = connection.playStream(stream);
 	message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
-	//bot.user.setGame(currentSong.title);
-	//Workaround since above wouldn't work
-	bot.user.setPresence({ game: { name: currentSong.title, type: 0 } });
 	dispatcher.player.on("warn", console.warn);
 	dispatcher.on("warn", console.warn);
 	dispatcher.on("error", console.error);
@@ -363,9 +360,6 @@ var playSong = function(message, connection){
 		if(reason === "user" || reason === "Stream is not generating quickly enough."){
 			if(autoremove){
 				songQueue.splice(currentSongIndex, 1);
-				if(songQueue.length === 0){
-					//bot.user.setGame(currentSong.title);
-					//Workaround since above wouldn't work
 					message.member.voiceChannel.leave();
 				} else{
 					setTimeout(function(){
@@ -375,8 +369,6 @@ var playSong = function(message, connection){
 			} else{
 				currentSongIndex++;
 				if(currentSongIndex >= songQueue.length && !shuffle){
-					//bot.user.setGame(currentSong.title);
-					//Workaround since above wouldn't work
 					message.member.voiceChannel.leave();
 					message.channel.send("Finished playing the song queue");
 				} else{
