@@ -7,7 +7,7 @@ const youtube = google.youtube("v3");
 
 const bot = new Discord.Client();
 const prefix = "$";
-const botChannelName = "pica-commands";
+const botChannelName = "icwbot";
 var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
@@ -510,7 +510,7 @@ var playSong = function(message, connection){
 var checkForCommand = function(message){
 	if(!message.author.bot && message.content.startsWith(prefix)){
 		if(!botChannel){
-			botChannel = message.guild.channels.find("name", botChannelName);
+			message.channel = message.guild.channels.find("name", botChannelName);
 		}
 		if(botChannel){
 			var args = message.content.substring(1).split(" ");
@@ -518,8 +518,8 @@ var checkForCommand = function(message){
 			try{
 				commands[command].process(message, args);
 			} catch(e){
-				botChannel.send("Sorry, that isn't a command yet :sob:", {reply: message});
-				botChannel.send(`You can type \`${prefix}help\` to see a list of my commands`);
+				message.channel.send("Sorry, that isn't a command yet :sob:", {reply: message});
+				message.channel.send(`You can type \`${prefix}help\` to see a list of my commands`);
 			}
 		} else{
 			message.channel.send(`Please create a \`${botChannelName}\` channel`);
