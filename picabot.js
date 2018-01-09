@@ -53,9 +53,9 @@ var commands = {
 		"usage": "<key> <message>",
 		"description": "Saves a personalized message with a given key",
 		"process": function(message, args){
-			botChannel.send("**Disclaimer:** your message will not be permanantly saved and will delete upon bot restart (for now)", {reply: message});
+			message.Channel.send("**Disclaimer:** your message will not be permanantly saved and will delete upon bot restart (for now)", {reply: message});
 			if(args.length < 2){
-				botChannel.send(`Save a message with \`${prefix}save <key> <message>\``, {reply: message});
+				message.Channel.send(`Save a message with \`${prefix}save <key> <message>\``, {reply: message});
 				return;
 			}
 			var key = args[0];
@@ -73,7 +73,7 @@ var commands = {
 				save[message.author.username][key] = messageToSave;
 				fs.writeFile("save.json", JSON.stringify(save), "utf8", function(err){
 					if(err) throw err;
-					botChannel.send(`Your message has been saved as \`${key}\`! :tada:`, {reply: message});
+					message.Channel.send(`Your message has been saved as \`${key}\`! :tada:`, {reply: message});
 				});
 			});
 		}
