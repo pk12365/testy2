@@ -402,8 +402,6 @@ var checkForCommand = function(message) {
     try {
       commands[command].process(message, args);
     } catch (e) {
-      message.channel.send("Sorry, that isn't a command yet :sob:", { reply: message });
-      message.channel.send(`You can type \`${prefix}help\` to see a list of my commands`);
     }
   }
 };
