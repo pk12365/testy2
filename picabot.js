@@ -29,7 +29,7 @@ var commands = {
 					commandList += `\`${commandKeys[i]}\`, `;
 				}
 				commandList += `and \`${commandKeys[commandKeys.length - 1]}\``;
-			        message.author.send("```Music commands are: \n    help```", {reply: message});
+			        message.author.send("```Music commands are: \n    play   (add your music in the queue) \n    pause   (pause the player) \n    resume   (resume your player) \n    skip   (for next song) \n    prev   (for previous song) \n    clear   (stop your player) \n    queue   (check queue list) \n    song   (view now playing) \n    random   (playing random song) ```", {reply: message});
 			} else{
 				var helpList = "";
 				if(args[0] === "-a" || args[0] === "--all"){
