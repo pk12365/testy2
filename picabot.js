@@ -507,7 +507,7 @@ var playSong = function(message, connection){
 	});
 }
 
-var checkForCommand = function(message){
+var checkForCommand = function(){
 	if(!message.author.bot && message.content.startsWith(prefix)){
 		if(!botChannel){
 			botChannel = message.guild.channels.find("name", botChannelName);
