@@ -517,9 +517,6 @@ bot.on("guildMemberAdd", function(member){
 	member.guild.defaultChannel.send(`Welcome to the server, ${member}! :smile:`);
 	member.guild.defaultChannel.send(`You can type \`${prefix}help\` at anytime to see my commands`);
 });
-bot.on("message", function(message){
-	checkForCommand(message);
-});
 bot.on("messageUpdate", function(oldMessage, newMessage){
 	checkForCommand(newMessage);
 });
