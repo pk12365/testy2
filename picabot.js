@@ -29,7 +29,7 @@ var commands = {
 					commandList += `\`${commandKeys[i]}\`, `;
 				}
 				commandList += `and \`${commandKeys[commandKeys.length - 1]}\``;
-			        message.author.send("My current commands are: " + commandList, {reply: message});
+			        message.author.send("My Music commands are:n\ ```help```", {reply: message});
 			} else{
 				var helpList = "";
 				if(args[0] === "-a" || args[0] === "--all"){
