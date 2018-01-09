@@ -7,7 +7,7 @@ const youtube = google.youtube("v3");
 
 const bot = new Discord.Client();
 const prefix = "$";
-const botChannelName = "icwbot";
+const botChannelName = "pica-commands";
 var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
@@ -45,7 +45,7 @@ var commands = {
 						}
 					}
 				}
-				message.channel.send(helpList, {reply: message});
+				botChannel.send(helpList, {reply: message});
 			}
 		}
 	},
@@ -53,9 +53,9 @@ var commands = {
 		"usage": "<key> <message>",
 		"description": "Saves a personalized message with a given key",
 		"process": function(message, args){
-			message.channel.send("**Disclaimer:** your message will not be permanantly saved and will delete upon bot restart (for now)", {reply: message});
+			message.Channel.send("**Disclaimer:** your message will not be permanantly saved and will delete upon bot restart (for now)", {reply: message});
 			if(args.length < 2){
-				message.channel.send(`Save a message with \`${prefix}save <key> <message>\``, {reply: message});
+				message.Channel.send(`Save a message with \`${prefix}save <key> <message>\``, {reply: message});
 				return;
 			}
 			var key = args[0];
@@ -73,7 +73,7 @@ var commands = {
 				save[message.author.username][key] = messageToSave;
 				fs.writeFile("save.json", JSON.stringify(save), "utf8", function(err){
 					if(err) throw err;
-					message.channel.send(`Your message has been saved as \`${key}\`! :tada:`, {reply: message});
+					message.Channel.send(`Your message has been saved as \`${key}\`! :tada:`, {reply: message});
 				});
 			});
 		}
@@ -506,6 +506,27 @@ var playSong = function(message, connection){
 		}
 	});
 }
+
+var checkForCommand = function(message){
+	if(!message.author.bot && message.content.startsWith(prefix)){
+		if(!botChannel){
+			botChannel = message.guild.channels.find("name", botChannelName);
+		}
+		if(botChannel){
+			var args = message.content.substring(1).split(" ");
+			var command = args.splice(0, 1);
+			try{
+				commands[command].process(message, args);
+			} catch(e){
+				botChannel.send("Sorry, that isn't a command yet :sob:", {reply: message});
+				botChannel.send(`You can type \`${prefix}help\` to see a list of my commands`);
+			}
+		} else{
+			message.channel.send(`Please create a \`${botChannelName}\` channel`);
+		}
+	}
+}
+
 bot.on("ready", function(){
 	console.log("Bot ready");
 });
@@ -516,6 +537,9 @@ bot.on("disconnect", function(){
 bot.on("guildMemberAdd", function(member){
 	member.guild.defaultChannel.send(`Welcome to the server, ${member}! :smile:`);
 	member.guild.defaultChannel.send(`You can type \`${prefix}help\` at anytime to see my commands`);
+});
+bot.on("message", function(message){
+	checkForCommand(message);
 });
 bot.on("messageUpdate", function(oldMessage, newMessage){
 	checkForCommand(newMessage);
