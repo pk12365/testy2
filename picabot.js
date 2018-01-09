@@ -91,28 +91,28 @@ var commands = {
 					try{
 						messageKeys = Object.keys(save[message.author.username]);
 					} catch(e){
-						botChannel.send("You have no saved messages, try saving one!", {reply: message});
+						message.channel.send("You have no saved messages, try saving one!", {reply: message});
 						return;
 					}
 					if(messageKeys.length === 0){
-						botChannel.send("You have no saved messages, try saving one!", {reply: message});
+						message.channel.send("You have no saved messages, try saving one!", {reply: message});
 						return;
 					}
 					for(var i = 0; i < messageKeys.length - 1; i++){
 						savedMessages += messageKeys[i] + ", ";
 					}
 					savedMessages += messageKeys[messageKeys.length - 1];
-					botChannel.send("Your saved messages are: " + savedMessages, {reply: message});
+					message.channel.send("Your saved messages are: " + savedMessages, {reply: message});
 				} else{
 					var key = args[0];
 					var recalledMessage;
 					try{
 						recalledMessage = save[message.author.username][key];
 					} catch(e){
-						botChannel.send(`You don't have a saved message with the key \`${key}\``, {reply: message});
+						message.channel.send(`You don't have a saved message with the key \`${key}\``, {reply: message});
 						return;
 					}
-					botChannel.send(recalledMessage, {reply: message});
+					message.channel.send(recalledMessage, {reply: message});
 				}
 			});
 		}
@@ -125,19 +125,19 @@ var commands = {
 				if(err) throw err;
 				var save = JSON.parse(data);
 				if(args.length === 0){
-					botChannel.send(`Delete a saved message with \`${prefix}delete <key>\``, {reply: message});
+					message.channel.send(`Delete a saved message with \`${prefix}delete <key>\``, {reply: message});
 					return;
 				} else{
 					var key = args[0];
 					try{
 						delete save[message.author.username][key];
 					} catch(e){
-						botChannel.send(`You don't have a saved message with the key \`${key}\``, {reply: message});
+						message.channel.send(`You don't have a saved message with the key \`${key}\``, {reply: message});
 						return;
 					}
 					fs.writeFile("save.json", JSON.stringify(save), "utf8", function(err){
 						if(err) throw err;
-						botChannel.send(`Your message \`${key}\` has been deleted! :tada:`, {reply: message});
+						message.channel.send(`Your message \`${key}\` has been deleted! :tada:`, {reply: message});
 					});
 				}
 			});
@@ -147,7 +147,7 @@ var commands = {
 		"usage": "",
 		"description": "(NOT DONE) Call the bot to your voice channel to deliver a special insult",
 		"process": function(message, args){
-			botChannel.send("There are currently no insults :sob:", {reply: message});
+			message.channel.send("There are currently no insults :sob:", {reply: message});
 		}
 	},
 	"addsong": {
@@ -157,7 +157,7 @@ var commands = {
 			if(message.member.voiceChannel !== undefined){
 				addSong(message, args[0]);
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -180,22 +180,22 @@ var commands = {
 						"part": "snippet"
 					}, function(err, data){
 						if(err){
-							botChannel.send("There was an error searching for your song :cry:", {reply: message});
+							message.channel.send("There was an error searching for your song :cry:", {reply: message});
 							console.log("Error: " + err);
 						}
 						if(data){
 							if(data.items.length === 0){
-								botChannel.send(`There were no results for \`${query}\``);
+								message.channel.send(`There were no results for \`${query}\``);
 							} else{
 								addSong(message, "https://www.youtube.com/watch?v=" + data.items[0].id.videoId);
 							}
 						}
 					});
 				} else{
-					botChannel.send(`You can search for a youtube song with \`${prefix}yt <query>\``, {reply: message});
+					message.channel.send(`You can search for a youtube song with \`${prefix}yt <query>\``, {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -207,15 +207,15 @@ var commands = {
 				if(songQueue.length > 0){
 					if(dispatcher.paused){
 						dispatcher.resume();
-						botChannel.send("Song resumed! :play_pause:", {reply: message});
+						message.channel.send("Song resumed! :play_pause:", {reply: message});
 					} else{
-						botChannel.send("Song is already playing", {reply: message});
+						message.channel.send("Song is already playing", {reply: message});
 					}
 				} else{
-					botChannel.send("No song is in the queue", {reply: message});
+					message.channel.send("No song is in the queue", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -227,15 +227,15 @@ var commands = {
 				if(songQueue.length > 0){
 					if(!dispatcher.paused){
 						dispatcher.pause();
-						botChannel.send("Song paused! :pause_button:", {reply: message});
+						message.channel.send("Song paused! :pause_button:", {reply: message});
 					} else{
-						botChannel.send("Song is already paused", {reply: message});
+						message.channel.send("Song is already paused", {reply: message});
 					}
 				} else{
-					botChannel.send("No song is in the queue", {reply: message});
+					message.channel.send("No song is in the queue", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -257,10 +257,10 @@ var commands = {
 					}
 					dispatcher.end("prev");
 				} else{
-					botChannel.send("There are no more songs :sob:", {reply: message});
+					message.channel.send("There are no more songs :sob:", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -283,14 +283,14 @@ var commands = {
 						//Workaround since above wouldn't work
 						bot.user.setPresence({ game: { name: "", type: 0 } });
 						message.member.voiceChannel.leave();
-						botChannel.send("Finished playing the song queue");
+						message.channel.send("Finished playing the song queue");
 					}
 					dispatcher.end("next");
 				} else{
-					botChannel.send("There are no more songs :sob:", {reply: message});
+					message.channel.send("There are no more songs :sob:", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -311,13 +311,13 @@ var commands = {
 						}
 						dispatcher.end("goto");
 					} else{
-						botChannel.send(`\`${args[0]}\` is an invalid index`, {reply: message});
+						message.channel.send(`\`${args[0]}\` is an invalid index`, {reply: message});
 					}
 				} else{
-					botChannel.send("There are no more songs :sob:", {reply: message});
+					message.channel.send("There are no more songs :sob:", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -330,10 +330,10 @@ var commands = {
 					currentSongIndex = Math.floor(Math.random() * songQueue.length);
 					dispatcher.end("random");
 				} else{
-					botChannel.send("There are no more songs :sob:", {reply: message});
+					message.channel.send("There are no more songs :sob:", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -343,17 +343,17 @@ var commands = {
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
 				if(songQueue.length === 0){
-					botChannel.send("There are no songs to clear", {reply: message});
+					message.channel.send("There are no songs to clear", {reply: message});
 				} else if(args.length > 0){
 					var index = Number.parseInt(args[0]);
 					if(Number.isInteger(index)){
-						botChannel.send(`\`${songQueue[index - 1].title}\` has been removed from the song queue`, {reply: message});
+						message.channel.send(`\`${songQueue[index - 1].title}\` has been removed from the song queue`, {reply: message});
 						songQueue.splice(index - 1, 1);
 						if(index - 1 <= currentSongIndex){
 							currentSongIndex--;
 						}
 					} else{
-						botChannel.send(`\`${args[0]}\` is an invalid index`, {reply: message});
+						message.channel.send(`\`${args[0]}\` is an invalid index`, {reply: message});
 					}
 				} else{
 					dispatcher.end("clear");
@@ -363,10 +363,10 @@ var commands = {
 					//Workaround since above wouldn't work
 					bot.user.setPresence({ game: { name: "", type: 0 } });
 					message.member.voiceChannel.leave();
-					botChannel.send("The song queue has been cleared", {reply: message});
+					message.channel.send("The song queue has been cleared", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -377,13 +377,13 @@ var commands = {
 			if(message.member.voiceChannel !== undefined){
 				if(shuffle){
 					shuffle = false;
-					botChannel.send("Shuffle is now disabled", {reply: message});
+					message.channel.send("Shuffle is now disabled", {reply: message});
 				} else{
 					shuffle = true;
-					botChannel.send("Shuffle is now enabled", {reply: message});
+					message.channel.send("Shuffle is now enabled", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -394,13 +394,13 @@ var commands = {
 			if(message.member.voiceChannel !== undefined){
 				if(autoremove){
 					autoremove = false;
-					botChannel.send("Song autoremoval is now disabled", {reply: message});
+					message.channel.send("Song autoremoval is now disabled", {reply: message});
 				} else{
 					autoremove = true;
-					botChannel.send("Song autoremoval is now enabled", {reply: message});
+					message.channel.send("Song autoremoval is now enabled", {reply: message});
 				}
 			} else{
-				botChannel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
 			}
 		}
 	},
@@ -409,9 +409,9 @@ var commands = {
 		"description": "Gives you information about the currently playing song",
 		"process": function(message, args){
 			if(songQueue.length > 0){
-				botChannel.send(`The current song is \`${songQueue[currentSongIndex].title}\` :musical_note:, added by ${songQueue[currentSongIndex].user}`, {reply: message});
+				message.channel.send(`The current song is \`${songQueue[currentSongIndex].title}\` :musical_note:, added by ${songQueue[currentSongIndex].user}`, {reply: message});
 			} else{
-				botChannel.send("No song is in the queue", {reply: message});
+				message.channel.send("No song is in the queue", {reply: message});
 			}
 		}
 	},
@@ -428,9 +428,9 @@ var commands = {
 						songList += `\`${i + 1}. ${songQueue[i].title}\`\n`;
 					}
 				}
-				botChannel.send("The song queue currently has:\n" + songList, {reply: message});
+				message.channel.send("The song queue currently has:\n" + songList, {reply: message});
 			} else{
-				botChannel.send("No song is in the queue", {reply: message});
+				message.channel.send("No song is in the queue", {reply: message});
 			}
 		}
 	}
@@ -443,14 +443,14 @@ var addSong = function(message, url){
 		song.url = url;
 		song.user = message.author.username;
 		songQueue.push(song);
-		botChannel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
+		message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
 		if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
 			message.member.voiceChannel.join().then(function(connection){
 				playSong(message, connection);
 			}).catch(console.log);
 		}
 	}).catch(function(err){
-		botChannel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
+		message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
 	});
 }
 
@@ -463,7 +463,7 @@ var playSong = function(message, connection){
 	var currentSong = songQueue[currentSongIndex];
 	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
 	dispatcher = connection.playStream(stream);
-	botChannel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
+	message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
 	//bot.user.setGame(currentSong.title);
 	//Workaround since above wouldn't work
 	bot.user.setPresence({ game: { name: currentSong.title, type: 0 } });
@@ -492,7 +492,7 @@ var playSong = function(message, connection){
 					//Workaround since above wouldn't work
 					bot.user.setPresence({ game: { name: "", type: 0 } });
 					message.member.voiceChannel.leave();
-					botChannel.send("Finished playing the song queue");
+					message.channel.send("Finished playing the song queue");
 				} else{
 					setTimeout(function(){
 						playSong(message, connection);
