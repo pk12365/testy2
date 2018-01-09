@@ -378,7 +378,6 @@ var playSong = function(message, connection){
 				if(currentSongIndex >= songQueue.length && !shuffle){
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
-					bot.user.setPresence({ game: { name: "", type: 0 } });
 					message.member.voiceChannel.leave();
 					message.channel.send("Finished playing the song queue");
 				} else{
