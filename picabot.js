@@ -506,27 +506,6 @@ var playSong = function(message, connection){
 		}
 	});
 }
-
-var checkForCommand = function(message){
-	if(!message.author.bot && message.content.startsWith(prefix)){
-		if(!botChannel){
-			message.channel = message.guild.channels.find("name", botChannelName);
-		}
-		if(botChannel){
-			var args = message.content.substring(1).split(" ");
-			var command = args.splice(0, 1);
-			try{
-				commands[command].process(message, args);
-			} catch(e){
-				message.channel.send("Sorry, that isn't a command yet :sob:", {reply: message});
-				message.channel.send(`You can type \`${prefix}help\` to see a list of my commands`);
-			}
-		} else{
-			message.channel.send(`Please create a \`${botChannelName}\` channel`);
-		}
-	}
-}
-
 bot.on("ready", function(){
 	console.log("Bot ready");
 });
