@@ -304,24 +304,30 @@ var commands = {
 				message.channel.send("No song is in the queue", {reply: message});
 			}
 		}
-	}
+	},
+	"volume": {
+		"usage": "/volume {volume %0-100}",
+        "description": "Sets the bots volume.",
+		"process": function(message, args){
+			try{
+				volume = parseFloat(args[0]);
+				volume = volume / 100
+				if(volume > 1){
+					volume = 1;
+				}else if(volume < 0){
+					volume = 0;
+				}
+				conf["volume"] = volume;
+				if(dispatcher){
+					dispatcher.setVolume(volume);
+				}
+			}catch(e){
+				message.channel.send("Bot isnt in a voice channel!");
+			}
+
+		}
+	}	
 };
-
-    if (command === `volume`) {
-
-	if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
-
-	if (!serverQueue) return msg.channel.send('There is nothing playing.');
-
-	if (!args[1]) return msg.channel.send(`The current volume is: **${serverQueue.volume}**`);
-
-	serverQueue.volume = args[1];
-
-	serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
-
-	return msg.channel.send(`I set the volume to: **${args[1]}**`);
-
-
 var addSong = function(message, url){
 	ytdl.getInfo(url).then(function(info){
 		var song = {};
@@ -435,4 +441,4 @@ fs.readFile("save.json", function(err, data){
 			throw err;
 		}
 	}
-})};
+});
