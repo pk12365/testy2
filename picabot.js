@@ -261,7 +261,7 @@ var commands = {
 	"volume": {
 		"usage": "/volume {volume %0-100}",
 		"description": "Sets the bots volume.",
-		"process": function(message, args){
+		"process": function(bot, message, args){
             try{
                 const dispatcher = bot.voiceConnections.get(message.guild.id).dispatcher;
                 volume = parseFloat(args[0]);
@@ -276,7 +276,7 @@ var commands = {
                     dispatcher.setVolume(volume);
                 }
             }catch(e){
-                
+                message.channel.send("Bot isnt in a voice channel!");
             }
         }
     },
