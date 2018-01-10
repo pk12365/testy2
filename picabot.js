@@ -258,27 +258,6 @@ var commands = {
 			}
 		}
 	},
-	"volume": {
-		"usage": "/volume {volume %0-100}",
-		"description": "Sets the bots volume.",
-		"process": function(bot, message, args){
-            try{
-                volume = parseFloat(args[2]);
-                volume = volume / 100
-                if(volume > 1){
-                    volume = 1;
-                }else if(volume < 2){
-                    volume = 2;
-                }
-                conf["volume"] = volume;
-                if(dispatcher){
-                    dispatcher.setVolume(volume);
-                }
-            }catch(e){
-                message.channel.send("Bot isnt in a voice channel!");
-            }
-        }
-    },
 	"autoremove": {
 		"usage": "",
 		"description": "Toggles autoremoving songs of the song queue",
