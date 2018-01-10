@@ -276,7 +276,7 @@ var commands = {
                     dispatcher.setVolume(volume);
                 }
             }catch(e){
-                message.channel.send("Bot isnt in a voice channel!");
+                
             }
         }
     },
