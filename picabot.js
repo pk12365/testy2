@@ -263,7 +263,6 @@ var commands = {
 		"description": "Sets the bots volume.",
 		"process": function(bot, message, args){
             try{
-                const dispatcher = bot.voiceConnections.get(message.guild.id).dispatcher;
                 volume = parseFloat(args[0]);
                 volume = volume / 100
                 if(volume > 1){
