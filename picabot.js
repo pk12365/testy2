@@ -321,10 +321,9 @@ var commands = {
 				if(dispatcher){
 					dispatcher.setVolume(volume);
 				}
-			}catch(e){
-				message.channel.send("Bot isnt in a voice channel!");
+			} finally{
+				message.channel.send("No song is in the queue", {reply: message});
 			}
-
 		}
 	}	
 };
