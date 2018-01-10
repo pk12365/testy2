@@ -278,7 +278,8 @@ var commands = {
             }catch(e){
                 message.channel.send("Bot isnt in a voice channel!");
             }
-        },
+        }
+    },
 	"autoremove": {
 		"usage": "",
 		"description": "Toggles autoremoving songs of the song queue",
