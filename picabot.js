@@ -271,7 +271,7 @@ var commands = {
                 }else if(volume < 0){
                     volume = 0;
                 }
-                conf["volume"] = volume;
+                volume = volume;
                 if(dispatcher){
                     dispatcher.setVolume(volume);
                 }
@@ -354,7 +354,7 @@ var playSong = function(message, connection){
 	}
 	var currentSong = songQueue[currentSongIndex];
 	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
-	dispatcher = connection.playStream(stream, {volume: 0.05});
+	dispatcher = connection.playStream(stream, {volume: 01});
 	message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
 	//bot.user.setGame(currentSong.title);
 	//Workaround since above wouldn't work
