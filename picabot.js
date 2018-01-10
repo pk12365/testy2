@@ -323,7 +323,28 @@ var commands = {
 		}
 	}
 };
-
+	"volume": {
+		"usage": "/volume {volume %0-100}",
+		"description": "Sets the bots volume.",
+		"process": function(message, args){
+			try{
+				const dispatcher = bot.voiceConnections.get(message.guild.id).dispatcher;
+				volume = parseFloat(args[0]);
+				volume = volume / 100
+				if(volume > 1){
+					volume = 1;
+				}else if(volume < 0){
+					volume = 0;
+				}
+				conf["volume"] = volume;
+				if(dispatcher){
+					dispatcher.setVolume(volume);
+				}
+			}catch(e){
+				message.channel.send("Bot isnt in a voice channel!");
+			}
+		}
+			
 var addSong = function(message, url){
 	ytdl.getInfo(url).then(function(info){
 		var song = {};
