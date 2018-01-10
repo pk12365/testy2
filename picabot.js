@@ -263,12 +263,12 @@ var commands = {
 		"description": "Sets the bots volume.",
 		"process": function(bot, message, args){
             try{
-                volume = parseFloat(args[0]);
+                volume = parseFloat(args[2]);
                 volume = volume / 100
                 if(volume > 1){
                     volume = 1;
-                }else if(volume < 0){
-                    volume = 0;
+                }else if(volume < 2){
+                    volume = 2;
                 }
                 conf["volume"] = volume;
                 if(dispatcher){
