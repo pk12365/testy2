@@ -258,23 +258,27 @@ var commands = {
 			}
 		}
 	},
-	"shuffle": {
-		"usage": "",
-		"description": "Toggles shuffling of the song queue",
+	"volume": {
+		"usage": "/volume {volume %0-100}",
+		"description": "Sets the bots volume.",
 		"process": function(message, args){
-			if(message.member.voiceChannel !== undefined){
-				if(shuffle){
-					shuffle = false;
-					message.channel.send("Shuffle is now disabled", {reply: message});
-				} else{
-					shuffle = true;
-					message.channel.send("Shuffle is now enabled", {reply: message});
-				}
-			} else{
-				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
-			}
-		}
-	},
+            try{
+                const dispatcher = bot.voiceConnections.get(message.guild.id).dispatcher;
+                volume = parseFloat(args[0]);
+                volume = volume / 100
+                if(volume > 1){
+                    volume = 1;
+                }else if(volume < 0){
+                    volume = 0;
+                }
+                conf["volume"] = volume;
+                if(dispatcher){
+                    dispatcher.setVolume(volume);
+                }
+            }catch(e){
+                message.channel.send("Bot isnt in a voice channel!");
+            }
+        },
 	"autoremove": {
 		"usage": "",
 		"description": "Toggles autoremoving songs of the song queue",
@@ -302,7 +306,7 @@ var commands = {
 				message.channel.send("No song is in the queue", {reply: message});
 			}
 		}
-	},
+    },
 	"queue": {
 		"usage": "",
 		"description": "Gives you a list of the songs currently in the queue",
@@ -323,28 +327,6 @@ var commands = {
 		}
 	}
 };
-	"volume": {
-		"usage": "/volume {volume %0-100}",
-		"description": "Sets the bots volume.",
-		"process": function(message, args){
-			try{
-				const dispatcher = bot.voiceConnections.get(message.guild.id).dispatcher;
-				volume = parseFloat(args[0]);
-				volume = volume / 100
-				if(volume > 1){
-					volume = 1;
-				}else if(volume < 0){
-					volume = 0;
-				}
-				conf["volume"] = volume;
-				if(dispatcher){
-					dispatcher.setVolume(volume);
-				}
-			}catch(e){
-				message.channel.send("Bot isnt in a voice channel!");
-			}
-		}
-			
 var addSong = function(message, url){
 	ytdl.getInfo(url).then(function(info){
 		var song = {};
