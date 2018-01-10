@@ -270,7 +270,7 @@ var commands = {
                 }else if(volume < 0){
                     volume = 0;
                 }
-                volume = volume;
+                conf["volume"] = volume;
                 if(dispatcher){
                     dispatcher.setVolume(volume);
                 }
