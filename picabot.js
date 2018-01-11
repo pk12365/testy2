@@ -108,25 +108,22 @@ var commands = {
 		}
 	},
 	"pause": {
-		"usage": "",
-		"description": "Pauses the current song",
-		"process": function(message, args){
-			if(message.member.voiceChannel !== undefined){
-				if(serverQueue.length > 0){
-					if(!dispatcher.paused){
-						dispatcher.pause();
-						message.channel.send("Song paused! :pause_button:", {reply: message});
-					} else{
-						message.channel.send("Song is already paused", {reply: message});
-					}
-				} else{
-					message.channel.send("No song is in the queue", {reply: message});
-				}
-			} else{
-				message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
-			}
-		}
-	},
+        "usage": "",
+        "description": "Pauses the current song",
+        "process": function(message, args){
+            if(message.member.voiceChannel !== undefined){
+                if(serverQueue.songs.length > 0){
+                    if(serverQueue.playing){
+                        serverQueue.playing = false;
+                        serverQueue.connection.dispatcher.pause();
+                        message.channel.send("Song paused! :pause_button:", {reply: message});
+                    } else{
+                        message.channel.send("Song is already paused", {reply: message});
+                    }
+                }
+            }
+        }
+    },
 	"prev": {
 		"usage": "<amount>",
 		"description": "Skips back in the queue by a certain amount of songs",
