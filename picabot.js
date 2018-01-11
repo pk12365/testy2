@@ -364,7 +364,7 @@ var addSong = function(message, url){
 }
 
 var playSong = function(message, connection){
-	const serverQueue = songQueue.get(guild.id);
+	const serverQueue = songQueue.get(message.guild.id);
 	if(shuffle){
 		do {
 			currentSongIndex = Math.floor(Math.random() * serverQueue.songs.length);
