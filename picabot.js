@@ -12,7 +12,6 @@ var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
 var songQueue = [];
-var servers = [];
 var currentSongIndex = 0;
 var previousSongIndex = 0;
 var shuffle = false;
@@ -93,7 +92,7 @@ var commands = {
 		"description": "Resumes the current song",
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
-				if(songQueue.length > 0){
+				if(serverQueue.length > 0){
 					if(dispatcher.paused){
 						dispatcher.resume();
 						message.channel.send("Song resumed! :play_pause:", {reply: message});
@@ -113,7 +112,7 @@ var commands = {
 		"description": "Pauses the current song",
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
-				if(songQueue.length > 0){
+				if(serverQueue.length > 0){
 					if(!dispatcher.paused){
 						dispatcher.pause();
 						message.channel.send("Song paused! :pause_button:", {reply: message});
@@ -133,7 +132,7 @@ var commands = {
 		"description": "Skips back in the queue by a certain amount of songs",
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
-				if(songQueue.length > 0){
+				if(serverQueue.length > 0){
 					previousSongIndex = currentSongIndex;
 					var amount = Number.parseInt(args[0]);
 					if(Number.isInteger(amount)){
@@ -158,7 +157,7 @@ var commands = {
 		"description": "Skips ahead in the queue by a certain amount of songs",
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
-				if(songQueue.length > 0){
+				if(serverQueue.length > 0){
 					previousSongIndex = currentSongIndex;
 					var amount = Number.parseInt(args[0]);
 					if(Number.isInteger(amount)){
@@ -166,8 +165,8 @@ var commands = {
 					} else{
 						currentSongIndex++;
 					}
-					if(currentSongIndex > songQueue.length - 1){
-						currentSongIndex = songQueue.length - 1;
+					if(currentSongIndex > serverQueue.length - 1){
+						currentSongIndex = serverQueue.length - 1;
 						//bot.user.setGame(currentSong.title);
 						//Workaround since above wouldn't work
 						bot.user.setPresence({ game: { name: "", type: 0 } });
@@ -188,15 +187,15 @@ var commands = {
 		"description": "Skips to a certain song in the queue by its index",
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
-				if(songQueue.length > 0){
+				if(serverQueue.length > 0){
 					var index = Number.parseInt(args[0]);
 					if(Number.isInteger(index)){
 						previousSongIndex = currentSongIndex;
 						currentSongIndex = index - 1;
 						if(currentSongIndex < 0){
 							currentSongIndex = 0;
-						} else if(currentSongIndex > songQueue.length - 1){
-							currentSongIndex = songQueue.length - 1;
+						} else if(currentSongIndex > serverQueue.length - 1){
+							currentSongIndex = serverQueue.length - 1;
 						}
 						dispatcher.end("goto");
 					} else{
@@ -215,8 +214,8 @@ var commands = {
 		"description": "Chooses a random song from the queue to play.",
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
-				if(songQueue.length > 0){
-					currentSongIndex = Math.floor(Math.random() * songQueue.length);
+				if(serverQueue.length > 0){
+					currentSongIndex = Math.floor(Math.random() * serverQueue.length);
 					dispatcher.end("random");
 				} else{
 					message.channel.send("There are no more songs :sob:", {reply: message});
@@ -231,13 +230,13 @@ var commands = {
 		"description": "Clears the song queue or a specific song in the queue",
 		"process": function(message, args){
 			if(message.member.voiceChannel !== undefined){
-				if(songQueue.length === 0){
+				if(serverQueue.length === 0){
 					message.channel.send("There are no songs to clear", {reply: message});
 				} else if(args.length > 0){
 					var index = Number.parseInt(args[0]);
 					if(Number.isInteger(index)){
-						message.channel.send(`\`${songQueue[index - 1].title}\` has been removed from the song queue`, {reply: message});
-						songQueue.splice(index - 1, 1);
+						message.channel.send(`\`${serverQueue[index - 1].title}\` has been removed from the song queue`, {reply: message});
+						serverQueue.splice(index - 1, 1);
 						if(index - 1 <= currentSongIndex){
 							currentSongIndex--;
 						}
@@ -247,7 +246,7 @@ var commands = {
 				} else{
 					dispatcher.end("clear");
 					currentSongIndex = 0;
-					songQueue = [];
+					serverQueue = [];
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
 					bot.user.setPresence({ game: { name: "", type: 0 } });
@@ -280,8 +279,8 @@ var commands = {
 		"usage": "",
 		"description": "Gives you information about the currently playing song",
 		"process": function(message, args){
-			if(songQueue.length > 0){
-				message.channel.send(`The current song is \`${songQueue[currentSongIndex].title}\` :musical_note:, added by ${songQueue[currentSongIndex].user}`, {reply: message});
+			if(serverQueue.length > 0){
+				message.channel.send(`The current song is \`${serverQueue[currentSongIndex].title}\` :musical_note:, added by ${serverQueue[currentSongIndex].user}`, {reply: message});
 			} else{
 				message.channel.send("No song is in the queue", {reply: message});
 			}
@@ -291,13 +290,13 @@ var commands = {
 		"usage": "",
 		"description": "Gives you a list of the songs currently in the queue",
 		"process": function(message, args){
-			if(songQueue.length > 0){
+			if(serverQueue.length > 0){
 				var songList = "";
-				for(var i = 0; i < songQueue.length; i++){
+				for(var i = 0; i < serverQueue.length; i++){
 					if(i === currentSongIndex){
-						songList += `__**\`${i + 1}. ${songQueue[i].title}\`**__\n`;
+						songList += `__**\`${i + 1}. ${serverQueue[i].title}\`**__\n`;
 					} else{
-						songList += `\`${i + 1}. ${songQueue[i].title}\`\n`;
+						songList += `\`${i + 1}. ${serverQueue[i].title}\`\n`;
 					}
 				}
 				message.channel.send("The song queue currently has:\n" + songList, {reply: message});
@@ -317,22 +316,21 @@ var commands = {
 			volume[message.guild.id] = Number(args[1]) / 100;
 			server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
             var server = servers[message.guild.id];
-            if (server.dispatcher) {
-                server.dispatcher.setVolume(volume[message.guild.id]);
+            if (serverQueue.dispatcher) {
+				serverQueue.volume = args[1];
+				serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1]);
 				message.channel.send(`Volume set: ${args[1]}%`);
 			}
 		}
-	}	
+	}
 };
 var addSong = function(message, url){
 	ytdl.getInfo(url).then(function(info){
 		var song = {};
-		var server = servers[message.guild.id];
-		server.songQueue = songQueue;
 		song.title = info.title;
 		song.url = url;
 		song.user = message.author.username;
-		server.songQueue.push(song);
+		serverQueue.push(song);
 		message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
 		if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
 			message.member.voiceChannel.join().then(function(connection){
@@ -347,10 +345,10 @@ var addSong = function(message, url){
 var playSong = function(message, connection){
 	if(shuffle){
 		do {
-			currentSongIndex = Math.floor(Math.random() * songQueue.length);
+			currentSongIndex = Math.floor(Math.random() * serverQueue.length);
 		} while(currentSongIndex === previousSongIndex);
 	}
-	var currentSong = songQueue[currentSongIndex];
+	var currentSong = serverQueue[currentSongIndex];
 	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
 	dispatcher = connection.playStream(stream);
 	message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
@@ -363,8 +361,8 @@ var playSong = function(message, connection){
 		console.log("Song ended because: " + reason);
 		if(reason === "user" || reason === "Stream is not generating quickly enough."){
 			if(autoremove){
-				songQueue.splice(currentSongIndex, 1);
-				if(songQueue.length === 0){
+				serverQueue.splice(currentSongIndex, 1);
+				if(serverQueue.length === 0){
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
 					message.member.voiceChannel.leave();
@@ -375,7 +373,7 @@ var playSong = function(message, connection){
 				}
 			} else{
 				currentSongIndex++;
-				if(currentSongIndex >= songQueue.length && !shuffle){
+				if(currentSongIndex >= serverQueue.length && !shuffle){
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
 					message.member.voiceChannel.leave();
@@ -417,6 +415,7 @@ bot.on("guildMemberAdd", function(member){
 	member.guild.defaultChannel.send(`You can type \`${prefix}help\` at anytime to see my commands`);
 });
 bot.on("message", function(message){
+	const serverQueue = serverQueue.get(message.guild.id);
 	checkForCommand(message);
 });
 bot.on("messageUpdate", function(oldMessage, newMessage){
@@ -443,4 +442,3 @@ fs.readFile("save.json", function(err, data){
 function newFunction() {
 	return queue.message.guild.id;
 }
-
