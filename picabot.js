@@ -368,7 +368,7 @@ var playSong = function(message, connection){
 			currentSongIndex = Math.floor(Math.random() * serverQueue.length);
 		} while(currentSongIndex === previousSongIndex);
 	}
-	var currentSong = serverQueue[currentSongIndex];
+	var currentSong = serverQueue.songs.[currentSongIndex];
 	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
 	dispatcher = connection.playStream(stream);
 	message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
