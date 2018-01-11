@@ -98,8 +98,9 @@ var commands = {
                 return message.channel.send('▶ Resumed the music for you!');
             }
             return message.channel.send('There is nothing playing.');
-    },
-    "pause": {
+        }
+	},
+	"pause": {
         "usage": "",
         "description": "Pauses the current song",
         "process": function(message, args){
@@ -110,23 +111,6 @@ var commands = {
                 return message.channel.send('⏸ Paused the music for you!');
             }
             return message.channel.send('There is nothing playing.');
-        }
-    },
-    "pause": {
-        "usage": "",
-        "description": "Pauses the current song",
-        "process": function(message, args){
-            if(message.member.voiceChannel !== undefined){
-                if(serverQueue.songs.length > 0){
-                    if(serverQueue.playing){
-                        serverQueue.playing = false;
-                        serverQueue.connection.dispatcher.pause();
-                        message.channel.send("Song paused! :pause_button:", {reply: message});
-                    } else{
-                        message.channel.send("Song is already paused", {reply: message});
-                    }
-                }
-            }
         }
     },
 	"prev": {
@@ -308,23 +292,23 @@ var commands = {
 		}
 	},
 	"volume": {
-		"usage": "/volume {volume %0-100}",
+        "usage": "/volume {volume %0-100}",
         "description": "Sets the bots volume.",
-		"process": function(message, args){
-			if (args[1] < 0 || args[1] > 100) {
+        "process": function(message, args){
+            if (args[1] < 0 || args[1] > 100) {
                 message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
-				return;
-			}
-			volume[message.guild.id] = Number(args[1]) / 100;
-			server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
-            var server = servers[message.guild.id];
-            if (serverQueue.dispatcher) {
-				serverQueue.volume = args[1];
-				serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1]);
-				message.channel.send(`Volume set: ${args[1]}%`);
-			}
-		}
-	}
+                return;
+            }
+            //volume[message.guild.id] = Number(args[1]) / 100;
+            //server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
+            //var server = servers[message.guild.id];
+            //if (serverQueue.dispatcher) {
+                serverQueue.volume = args[1];
+                serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1]);
+                message.channel.send(`Volume set: ${args[1]}%`);
+            //}
+        }
+    }
 };
 var addSong = function(message, url){
 	ytdl.getInfo(url).then(function(info){
