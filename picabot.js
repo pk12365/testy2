@@ -12,7 +12,6 @@ var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
 var songQueue = [];
-var server = channel.server.id;
 var currentSongIndex = 0;
 var previousSongIndex = 0;
 var shuffle = false;
@@ -310,20 +309,16 @@ var commands = {
 		"usage": "/volume {volume %0-100}",
         "description": "Sets the bots volume.",
 		"process": function(message, args){
-			try{
-				volume = parseFloat(args[0]);
-				volume = volume / 100
-				if(volume > 1){
-					volume = 1;
-				}else if(volume < 0){
-					volume = 0;
-				}
-				conf["volume"] = volume;
-				if(dispatcher){
-					dispatcher.setVolume(volume);
-				}
-			} finally{
-				message.channel.send("No song is in the queue", {reply: message});
+			if (args[1] < 0 || args[1] > 100) {
+                message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
+				return;
+			}
+			volume[message.guild.id] = Number(args[1]) / 100;
+			server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
+            var server = servers[message.guild.id];
+            if (server.dispatcher) {
+                server.dispatcher.setVolume(volume[message.guild.id]);
+				message.channel.send(`Volume set: ${args[1]}%`);
 			}
 		}
 	}	
@@ -442,3 +437,7 @@ fs.readFile("save.json", function(err, data){
 		}
 	}
 });
+function newFunction() {
+	return queue.message.guild.id;
+}
+
