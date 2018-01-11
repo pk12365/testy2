@@ -325,94 +325,96 @@ var commands = {
 	}
 };
 var addSong = function(message, url){
-    ytdl.getInfo(url).then(function(info){
-        var song = {};
-        song.title = info.title;
-        song.url = url;
-        song.user = message.author.username;
+	ytdl.getInfo(url).then(function(info){
+		var song = {};
+		song.title = info.title;
+		song.url = url;
+		song.user = message.author.username;
 
-        message.channel.send(song.title + " info retrieved successfully");
+		message.channel.send(song.title + " info retrieved successfully");
 
-        const queueConstruct = {
-            textChannel: message.channel,
-            connection: null,
-            songs: [],
-            volume: 3,
-            playing: true
-        };
+		const queueConstruct = {
+			textChannel: message.channel,
+			connection: null,
+			songs: [],
+			volume: 3,
+			playing: true
+		};
 
-        message.channel.send("Queue construct created successfully.");
-        
-        songQueue.set(message.guild.id, queueConstruct);
+		message.channel.send("Queue construct created successfully.");
 
-        message.channel.send("songQueue set successfully");
+		songQueue.set(message.guild.id, queueConstruct);
 
-        queueConstruct.songs.push(song);
+		message.channel.send("songQueue set successfully");
 
-        message.channel.send("queuecontrsuct pushed successfully.");
-        
-        message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
-        if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
-            message.member.voiceChannel.join().then(function(connection){
-                playSong(message, connection);
-            }).catch(console.log);
-        }
-    }).catch(function(err){
-        message.channel.send(err);
-        message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
-    });
+		queueConstruct.songs.push(song);
+
+		message.channel.send("queuecontrsuct pushed successfully.");
+
+		message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
+		if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
+			message.member.voiceChannel.join().then(function(connection){
+				playSong(message, connection);
+			}).catch(console.log);
+		}
+	}).catch(function(err){
+		message.channel.send(err);
+		message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
+	});
 }
+
 var playSong = function(message, connection){
-    if(shuffle){
-        do {
-            currentSongIndex = Math.floor(Math.random() * serverQueue.songs.length);
-        } while(currentSongIndex === previousSongIndex);
-    }
-    var currentSong = serverQueue.songs[currentSongIndex];
-    message.channel.send("currentsong defined correctly");
-    var stream = ytdl(currentSong.url, {"filter": "audioonly"});
-    message.channel.send("stream defined correctly");
-    dispatcher = connection.playStream(stream);
-    message.channel.send("dispatcher defined correctly");
-    message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
-    //bot.user.setGame(currentSong.title);
-    //Workaround since above wouldn't work
-    dispatcher.player.on("warn", console.warn);
-    dispatcher.on("warn", console.warn);
-    dispatcher.on("error", console.error);
-    dispatcher.once("end", function(reason){
-        console.log("Song ended because: " + reason);
-        if(reason === "user" || reason === "Stream is not generating quickly enough."){
-            if(autoremove){
-                serverQueue.splice(currentSongIndex, 1);
-                if(serverQueue.length === 0){
-                    //bot.user.setGame(currentSong.title);
-                    //Workaround since above wouldn't work
-                    message.member.voiceChannel.leave();
-                } else{
+	const serverQueue = songQueue.get(guild.id);
+	if(shuffle){
+		do {
+			currentSongIndex = Math.floor(Math.random() * serverQueue.songs.length);
+		} while(currentSongIndex === previousSongIndex);
+	}
+	var currentSong = serverQueue.songs[currentSongIndex];
+	message.channel.send("currentsong defined correctly");
+	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
+	message.channel.send("stream defined correctly");
+	dispatcher = connection.playStream(stream);
+	message.channel.send("dispatcher defined correctly");
+	message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
+	//bot.user.setGame(currentSong.title);
+	//Workaround since above wouldn't work
+	dispatcher.player.on("warn", console.warn);
+	dispatcher.on("warn", console.warn);
+	dispatcher.on("error", console.error);
+	dispatcher.once("end", function(reason){
+		console.log("Song ended because: " + reason);
+		if(reason === "user" || reason === "Stream is not generating quickly enough."){
+			if(autoremove){
+				serverQueue.splice(currentSongIndex, 1);
+				if(serverQueue.length === 0){
+					//bot.user.setGame(currentSong.title);
+					//Workaround since above wouldn't work
+					message.member.voiceChannel.leave();
+				} else{
 					setTimeout(function(){
-                        playSong(message, connection);
-                    }, 500);
-                }
-            } else{
-                currentSongIndex++;
-                if(currentSongIndex >= serverQueue.length && !shuffle){
-                    //bot.user.setGame(currentSong.title);
-                    //Workaround since above wouldn't work
-                    message.member.voiceChannel.leave();
-                    message.channel.send("Finished playing the song queue");
-                } else{
-                    setTimeout(function(){
-                        playSong(message, connection);
-                    }, 500);
-                }
-            }
-        } else if(reason === "prev" || reason === "next" || reason === "goto" || reason === "random"){
-            setTimeout(function(){
-                playSong(message, connection);
-            }, 500);
-        }
-    });
+						playSong(message, connection);
+					}, 500);
+				}
+			} else{
+				currentSongIndex++;
+				if(currentSongIndex >= serverQueue.length && !shuffle){
+					//bot.user.setGame(currentSong.title);
+					//Workaround since above wouldn't work
+					message.member.voiceChannel.leave();
+					message.channel.send("Finished playing the song queue");
+				} else{
+					setTimeout(function(){
+						playSong(message, connection);
+					}, 500);
+				}
+			}
+		} else if(reason === "prev" || reason === "next" || reason === "goto" || reason === "random"){
+			setTimeout(function(){
+				playSong(message, connection);
+			}, 500);
+		}
+	});
 }
 
 var checkForCommand = function(message) {
