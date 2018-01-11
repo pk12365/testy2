@@ -325,22 +325,32 @@ var commands = {
 	}
 };
 var addSong = function(message, url){
-	ytdl.getInfo(url).then(function(info){
-		var song = {};
-		song.title = info.title;
-		song.url = url;
-		song.user = message.author.username;
-message.channel.send(song.title + "\n" + song.url + "\n" + song.user);
-		serverQueue.push(song);
-		message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
-		if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
-			message.member.voiceChannel.join().then(function(connection){
-				playSong(message, connection);
-			}).catch(console.log);
-		}
-	}).catch(function(err){
-		message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
-	});
+    ytdl.getInfo(url).then(function(info){
+        var song = {};
+        song.title = info.title;
+        song.url = url;
+        song.user = message.author.username;
+        
+        const queueConstruct = {
+            textChannel: message.channel,
+            voiceChannel: voiceChannel,
+            connection: null,
+            songs: [],
+            volume: 3,
+            playing: true
+        };
+        songQueue.set(message.guild.id, queueConstruct);
+
+        queueConstruct.songs.push(song);
+        message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
+        if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
+            message.member.voiceChannel.join().then(function(connection){
+                playSong(message, connection);
+            }).catch(console.log);
+        }
+    }).catch(function(err){
+        message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
+    });
 }
 
 var playSong = function(message, connection){
