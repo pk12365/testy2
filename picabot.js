@@ -330,18 +330,27 @@ var addSong = function(message, url){
         song.title = info.title;
         song.url = url;
         song.user = message.author.username;
-        
+
+        message.channel.send(song.title + " info retrieved successfully");
+
         const queueConstruct = {
             textChannel: message.channel,
-            voiceChannel: voiceChannel,
             connection: null,
             songs: [],
             volume: 3,
             playing: true
         };
+
+        message.channel.send("Queue construct created successfully.");
+        
         songQueue.set(message.guild.id, queueConstruct);
 
+        message.channel.send("songQueue set successfully");
+
         queueConstruct.songs.push(song);
+
+        message.channel.send("queuecontrsuct pushed successfully.");
+        
         message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
         if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
             message.member.voiceChannel.join().then(function(connection){
@@ -353,7 +362,6 @@ var addSong = function(message, url){
         message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
     });
 }
-
 var playSong = function(message, connection){
 	if(shuffle){
 		do {
