@@ -328,6 +328,7 @@ var addSong = function(message, url){
 	ytdl.getInfo(url).then(function(info){
 		var song = {};
 		var server = servers[message.guild.id];
+		server.songQueue = songQueue;
 		song.title = info.title;
 		song.url = url;
 		song.user = message.author.username;
