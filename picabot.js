@@ -415,7 +415,7 @@ bot.on("guildMemberAdd", function(member){
 	member.guild.defaultChannel.send(`You can type \`${prefix}help\` at anytime to see my commands`);
 });
 bot.on("message", function(message){
-	const serverQueue = serverQueue.get(message.guild.id);
+	const serverQueue = songQueue.get(message.guild.id);
 	checkForCommand(message);
 });
 bot.on("messageUpdate", function(oldMessage, newMessage){
