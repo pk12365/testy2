@@ -330,6 +330,7 @@ var addSong = function(message, url){
 		song.title = info.title;
 		song.url = url;
 		song.user = message.author.username;
+message.channel.send(song.title + "\n" + song.url + "\n" + song.user);
 		serverQueue.push(song);
 		message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
 		if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
