@@ -349,6 +349,7 @@ var addSong = function(message, url){
             }).catch(console.log);
         }
     }).catch(function(err){
+        message.channel.send(err);
         message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
     });
 }
