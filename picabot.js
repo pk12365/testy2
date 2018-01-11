@@ -91,17 +91,25 @@ var commands = {
         "usage": "",
         "description": "Resumes the current song",
         "process": function(message, args){
-            if(message.member.voiceChannel !== undefined){
-                if(serverQueue.songs.length > 0){
-                    if(!serverQueue.playing){
-                        serverQueue.playing = true;
-                        serverQueue.connection.dispatcher.resume();
-                        message.channel.send("Song resumed! :play_pause:", {reply: message});
-                    } else{
-                        message.channel.send("Song is already playing", {reply: message});
-                    }
-                }
+            if (serverQueue && !serverQueue.playing)
+            {
+                serverQueue.playing = true;
+                serverQueue.connection.dispatcher.resume();
+                return message.channel.send('▶ Resumed the music for you!');
             }
+            return message.channel.send('There is nothing playing.');
+    },
+    "pause": {
+        "usage": "",
+        "description": "Pauses the current song",
+        "process": function(message, args){
+            if (serverQueue && serverQueue.playing)
+            {
+                serverQueue.playing = false;
+                serverQueue.connection.dispatcher.pause();
+                return message.channel.send('⏸ Paused the music for you!');
+            }
+            return message.channel.send('There is nothing playing.');
         }
     },
     "pause": {
