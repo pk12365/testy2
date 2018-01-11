@@ -12,6 +12,7 @@ var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
 var songQueue = [];
+var servers = {};
 var currentSongIndex = 0;
 var previousSongIndex = 0;
 var shuffle = false;
@@ -326,10 +327,11 @@ var commands = {
 var addSong = function(message, url){
 	ytdl.getInfo(url).then(function(info){
 		var song = {};
+		var server = servers[message.guild.id];
 		song.title = info.title;
 		song.url = url;
 		song.user = message.author.username;
-		songQueue.push(song);
+		server.songQueue.push(song);
 		message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
 		if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
 			message.member.voiceChannel.join().then(function(connection){
