@@ -420,5 +420,5 @@ var checkForCommand = function(message) {
 
 
 function newFunction() {
-	return queue.message.guild.id;
+	return serverQueue.message.guild.id;
 }
