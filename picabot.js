@@ -285,8 +285,8 @@ bot.on("message", function(message){
 	}
 
 	if (command === "volume") {
-		if (args[1] < 0 || args[1] > 10) {
-			message.channel.send("Invalid Volume! Please provide a volume from 0 to 10.");
+		if (args[1] < 0 || args[1] > 100) {
+			message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
 			return;
 		}
 		//volume[message.guild.id] = Number(args[1]) / 100;
