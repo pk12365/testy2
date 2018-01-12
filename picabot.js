@@ -293,8 +293,8 @@ bot.on("message", function(message){
             //server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
             //var server = servers[message.guild.id];
             //if (serverQueue.dispatcher) {
-            volume[message.guild.id] = Number(args[1]) / 100;
-            dispatcher.setVolumeLogarithmic(volume[message.guild.id]);
+            serverQueue.volume[message.guild.id] = args[1] / 100;
+            dispatcher.setVolumeLogarithmic(args[1][message.guild.id]);
             message.channel.send(`Volume set: ${args[1]}%`);
     
         }else{
