@@ -402,6 +402,3 @@ var playSong = function(message, connection){
 	}
 };
 
-function newFunction() {
-	return serverQueue.message.guild.id;
-}
