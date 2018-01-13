@@ -7,8 +7,6 @@ const youtube = google.youtube("v3");
 //var config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
 const bot = new Discord.Client();
 const prefix = "..";
-const botChannelName = "icwbot2";
-var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
 const songQueue = new Map();
@@ -59,7 +57,7 @@ bot.on("message", function(message){
 
 	if (!message.content.startsWith(prefix)) return undefined;
 
-	const args = message.content.split(' ');
+	const args = message.content.split(" ");
 	//Get command from message
 	let command = message.content.toLowerCase().split(" ")[0];
 	//Remove prefix from command string
@@ -105,9 +103,9 @@ bot.on("message", function(message){
 		{
 			serverQueue.playing = true;
 			dispatcher.resume();
-			return message.channel.send('▶ Resumed the music for you!');
+			return message.channel.send("▶ Resumed the music for you!");
 		}
-		return message.channel.send('There is nothing playing.');
+		return message.channel.send("There is nothing playing.");
 	}
 
 	if(command === "pause") {
@@ -115,9 +113,9 @@ bot.on("message", function(message){
 		{
 			serverQueue.playing = false;
 			dispatcher.pause();
-			return message.channel.send('⏸ Paused the music for you!');
+			return message.channel.send("⏸ Paused the music for you!");
 		}
-		return message.channel.send('There is nothing playing.');
+		return message.channel.send("There is nothing playing.");
 	}
 
 	if(command === "prev") {
@@ -217,7 +215,6 @@ bot.on("message", function(message){
 				dispatcher.end("stopping");
 				currentSongIndex = 0;
 				serverQueue.songs = [];
-				message.member.voiceChannel.leave();
 				message.channel.send("Clearing queue and stopping music!");
 			}
 		/*else if(args.length > 0){
@@ -284,25 +281,21 @@ bot.on("message", function(message){
 			message.channel.send("No song is in the queue", {reply: message});
 		}
 	}
-    if (command === "volume") {
-        if(message.member.voiceChannel !== undefined){
-            if (args[1] < 0 || args[1] > 100) {
-                message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
-                return;
-            }
-            //volume[message.guild.id] = Number(args[1]) / 100;
-            //server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
-            //var server = servers[message.guild.id];
-            //if (serverQueue.dispatcher) {
-            serverQueue.volume[message.guild.id] = args[1];
-            dispatcher.setVolumeLogarithmic(args[1] / 100);
-            message.channel.send(`Volume set: ${args[1]}%`);
-    
-        }else{
-            message.channel.send("You can't change volume if you're not in a voice channel :cry:", {reply: message});
-            }
 
-    }
+	if (command === "volume") {
+		if (args[1] < 0 || args[1] > 10) {
+			message.channel.send("Invalid Volume! Please provide a volume from 0 to 10.");
+			return;
+		}
+		//volume[message.guild.id] = Number(args[1]) / 100;
+		//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
+		//var server = servers[message.guild.id];
+		//if (serverQueue.dispatcher) {
+		serverQueue.volume = args[1];
+		dispatcher.setVolumeLogarithmic(args[1] / 5);
+		message.channel.send(`Volume set: ${args[1]}%`);
+		//}
+	}
 });
 
 var addSong = function(message, url){
@@ -347,7 +340,7 @@ var addSong = function(message, url){
 		message.channel.send(err + "\n\n\n");
 		message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
 	});
-}
+};
 
 var playSong = function(message, connection){
 	const serverQueue = songQueue.get(message.guild.id);
@@ -404,11 +397,11 @@ var playSong = function(message, connection){
 			}
 		});
 	}
-}
+};
 
 var checkForCommand = function(message) {
 	if (!message.author.bot && message.content.startsWith(prefix)) {
-		var args = message.content.substring(1).split(' ');
+		var args = message.content.substring(1).split(" ");
 		var command = args.splice(0, 1);
 		try {
 			commands[command].process(message, args);
@@ -420,5 +413,5 @@ var checkForCommand = function(message) {
 
 
 function newFunction() {
-	return serverQueue.message.guild.id;
+	return queue.message.guild.id;
 }
