@@ -27,9 +27,6 @@ bot.on("guildMemberAdd", function(member){
 	member.guild.defaultChannel.send(`You can type \`${prefix}help\` at anytime to see my commands`);
 });
 
-bot.on("messageUpdate", function(oldMessage, newMessage){
-	checkForCommand(newMessage);
-});
 
 bot.login(process.env.BOTTOKEN).then(function(){
 	console.log("Bot logged in");
@@ -215,6 +212,7 @@ bot.on("message", function(message){
 				dispatcher.end("stopping");
 				currentSongIndex = 0;
 				serverQueue.songs = [];
+				message.member.voiceChannel.leave();
 				message.channel.send("Clearing queue and stopping music!");
 			}
 		/*else if(args.length > 0){
@@ -281,20 +279,25 @@ bot.on("message", function(message){
 			message.channel.send("No song is in the queue", {reply: message});
 		}
 	}
-
+    
 	if (command === "volume") {
-		if (args[1] < 0 || args[1] > 100) {
-			message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
-			return;
+		if(message.member.voiceChannel !== undefined){
+			if (args[1] < 0 || args[1] > 100) {
+				message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
+				return;
+			}
+			//volume[message.guild.id] = Number(args[1]) / 100;
+			//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
+			//var server = servers[message.guild.id];
+			//if (serverQueue.dispatcher) {
+			serverQueue.volume[message.guild.id] = args[1];
+			dispatcher.setVolumeLogarithmic(args[1] / 100);
+			message.channel.send(`Volume set: ${args[1]}%`);
+    
+		}else{
+			message.channel.send("You can't change volume if you're not in a voice channel :cry:", {reply: message});
 		}
-		//volume[message.guild.id] = Number(args[1]) / 100;
-		//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
-		//var server = servers[message.guild.id];
-		//if (serverQueue.dispatcher) {
-		serverQueue.volume[messaage.guild.id] = args[1];
-		dispatcher.setVolumeLogarithmic(args[1] / 100);
-		message.channel.send(`Volume set: ${args[1]}%`);
-		//}
+
 	}
 });
 
@@ -398,6 +401,7 @@ var playSong = function(message, connection){
 		});
 	}
 };
+
 function newFunction() {
-	return queue.message.guild.id;
+	return serverQueue.message.guild.id;
 }
