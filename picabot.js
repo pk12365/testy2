@@ -282,18 +282,21 @@ bot.on("message", function(message){
     
 	if (command === "volume") {
 		if(message.member.voiceChannel !== undefined){
-			if (args[1] < 0 || args[1] > 100) {
-				message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
-				return;
-			}
-			//volume[message.guild.id] = Number(args[1]) / 100;
-			//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
-			//var server = servers[message.guild.id];
-			//if (serverQueue.dispatcher) {
-			serverQueue.volume[message.guild.id] = args[1];
-			dispatcher.setVolumeLogarithmic(args[1] / 100);
-			message.channel.send(`Volume set: ${args[1]}%`);
-    
+            if(Bot.user.voiceChannel !== undefined){
+                if (args[1] < 0 || args[1] > 100) {
+				    message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
+				    return;
+			    }
+			    //volume[message.guild.id] = Number(args[1]) / 100;
+			    //server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
+			    //var server = servers[message.guild.id];
+			    //if (serverQueue.dispatcher) {
+			    serverQueue.volume[message.guild.id] = args[1];
+			    dispatcher.setVolumeLogarithmic(args[1] / 100);
+			    message.channel.send(`Volume set: ${args[1]}%`);
+            }else{
+                message.channel.send("bot is not in voice channel", {reply: message});
+            }    
 		}else{
 			message.channel.send("You can't change volume if you're not in a voice channel :cry:", {reply: message});
 		}
