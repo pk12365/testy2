@@ -28,7 +28,7 @@ bot.on("guildMemberAdd", function(member){
 });
 
 
-bot.login(process.env.BOTTOKEN).then(function(){
+bot.login("MzkzMjQ3MTU0NjAyMzc3MjE2.DTSAfQ.X66AbE--8WakrAMY_BVlK2UaiK0").then(function(){
 	console.log("Bot logged in");
 }).catch(console.log);
 //bot.login(config.token);
@@ -69,7 +69,7 @@ bot.on("message", function(message){
 				}
 				query += " " + args[args.length - 1];
 				var results = youtube.search.list({
-					"key": process.env.GOOGLEAPIKEY,
+					"key": "AIzaSyA73wm-Df6E3kPOAffcKLw7FikEhQXJ474",
 					"q": query,
 					"type": "video",
 					"maxResults": "1",
@@ -279,28 +279,24 @@ bot.on("message", function(message){
 			message.channel.send("No song is in the queue", {reply: message});
 		}
 	}
-    
 	if (command === "volume") {
 		if(message.member.voiceChannel !== undefined){
-            if(bot.user.voiceChannel !== undefined){
-                if (args[1] < 0 || args[1] > 100) {
-				    message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
-				    return;
-			    }
-			    //volume[message.guild.id] = Number(args[1]) / 100;
-			    //server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
-			    //var server = servers[message.guild.id];
-			    //if (serverQueue.dispatcher) {
-			    serverQueue.volume[message.guild.id] = args[1];
-			    dispatcher.setVolumeLogarithmic(args[1] / 100);
-			    message.channel.send(`Volume set: ${args[1]}%`);
-            }else{
-                message.channel.send("bot is not in voice channel", {reply: message});
-            }    
+			if (args[1] < 0 || args[1] > 100) {
+				message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
+				return;
+			}
+			//volume[message.guild.id] = Number(args[1]) / 100;
+			//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
+			//var server = servers[message.guild.id];
+			//if (serverQueue.dispatcher) {
+			serverQueue.volume[message.guild.id] = args[1];
+			dispatcher.setVolumeLogarithmic(args[1] / 100);
+			message.channel.send(`Volume set: ${args[1]}%`);
+	
 		}else{
 			message.channel.send("You can't change volume if you're not in a voice channel :cry:", {reply: message});
 		}
-
+	
 	}
 });
 
@@ -356,7 +352,7 @@ var playSong = function(message, connection){
 		} while(currentSongIndex === previousSongIndex);
 	}
 
-	var currentSong = serverQueue.songs[currentSongIndex];
+	var currentSong = serverQueue.song[currentSongIndex];
 	if (currentSong) {
 	//message.channel.send("currentsong defined correctly");
 		var stream = ytdl(currentSong.url, {"filter": "audioonly"});
@@ -405,3 +401,6 @@ var playSong = function(message, connection){
 	}
 };
 
+function newFunction() {
+	return serverQueue.message.guild.id;
+}
