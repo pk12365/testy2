@@ -63,7 +63,7 @@ bot.on("message", function(message){
 	//Get command from message
 	let command = message.content.toLowerCase().split(" ")[0];
 	//Remove prefix from command string
-	command = command.slice(prefix.length);
+	command = command.slice(config.prefix.length);
 
 	if(command === "play") {
 		if(message.member.voiceChannel !== undefined){
@@ -74,7 +74,7 @@ bot.on("message", function(message){
 				}
 				query += " " + args[args.length - 1];
 				var results = youtube.search.list({
-					"key": process.env.GOOGLEAPIKEY,
+					"key": config.yt_api_key,
 					"q": query,
 					"type": "video",
 					"maxResults": "1",
@@ -342,7 +342,7 @@ var addSong = function(message, url){
 		message.channel.send(err + "\n\n\n");
 		message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
 	});
-}
+};
 
 var playSong = function(message, connection){
 	const serverQueue = songQueue.get(message.guild.id);
@@ -399,7 +399,7 @@ var playSong = function(message, connection){
 		}
 	});
 }
-}
+};
 
 var checkForCommand = function(message) {
 	if (!message.author.bot && message.content.startsWith(prefix)) {
