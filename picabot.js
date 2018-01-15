@@ -28,7 +28,7 @@ bot.on("guildMemberAdd", function(member){
 });
 
 
-bot.login("MzkzMjQ3MTU0NjAyMzc3MjE2.DTSAfQ.X66AbE--8WakrAMY_BVlK2UaiK0").then(function(){
+bot.login(process.env.BOTTOKEN).then(function(){
 	console.log("Bot logged in");
 }).catch(console.log);
 //bot.login(config.token);
@@ -69,7 +69,7 @@ bot.on("message", function(message){
 				}
 				query += " " + args[args.length - 1];
 				var results = youtube.search.list({
-					"key": "AIzaSyA73wm-Df6E3kPOAffcKLw7FikEhQXJ474",
+					"key": process.env.GOOGLEAPIKEY,
 					"q": query,
 					"type": "video",
 					"maxResults": "1",
