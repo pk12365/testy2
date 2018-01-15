@@ -6,7 +6,9 @@ const google = require("googleapis");
 const youtube = google.youtube("v3");
 //var config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
 const bot = new Discord.Client();
-const prefix = "..";
+const prefix = "$";
+const botChannelName = "icwbot2";
+var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
 const songQueue = new Map();
@@ -27,8 +29,11 @@ bot.on("guildMemberAdd", function(member){
 	member.guild.defaultChannel.send(`You can type \`${prefix}help\` at anytime to see my commands`);
 });
 
+bot.on("messageUpdate", function(oldMessage, newMessage){
+	checkForCommand(newMessage);
+});
 
-bot.login("MzkzMjQ3MTU0NjAyMzc3MjE2.DTSAfQ.X66AbE--8WakrAMY_BVlK2UaiK0").then(function(){
+bot.login(process.env.BOTTOKEN).then(function(){
 	console.log("Bot logged in");
 }).catch(console.log);
 //bot.login(config.token);
@@ -54,11 +59,11 @@ bot.on("message", function(message){
 
 	if (!message.content.startsWith(prefix)) return undefined;
 
-	const args = message.content.split(" ");
+	const args = message.content.split(' ');
 	//Get command from message
 	let command = message.content.toLowerCase().split(" ")[0];
 	//Remove prefix from command string
-	command = command.slice(prefix.length);
+	command = command.slice(config.prefix.length);
 
 	if(command === "play") {
 		if(message.member.voiceChannel !== undefined){
@@ -69,7 +74,7 @@ bot.on("message", function(message){
 				}
 				query += " " + args[args.length - 1];
 				var results = youtube.search.list({
-					"key": "AIzaSyA73wm-Df6E3kPOAffcKLw7FikEhQXJ474",
+					"key": process.env.GOOGLEAPIKEY,
 					"q": query,
 					"type": "video",
 					"maxResults": "1",
@@ -100,9 +105,9 @@ bot.on("message", function(message){
 		{
 			serverQueue.playing = true;
 			dispatcher.resume();
-			return message.channel.send("▶ Resumed the music for you!");
+			return message.channel.send('▶ Resumed the music for you!');
 		}
-		return message.channel.send("There is nothing playing.");
+		return message.channel.send('There is nothing playing.');
 	}
 
 	if(command === "pause") {
@@ -110,9 +115,9 @@ bot.on("message", function(message){
 		{
 			serverQueue.playing = false;
 			dispatcher.pause();
-			return message.channel.send("⏸ Paused the music for you!");
+			return message.channel.send('⏸ Paused the music for you!');
 		}
-		return message.channel.send("There is nothing playing.");
+		return message.channel.send('There is nothing playing.');
 	}
 
 	if(command === "prev") {
@@ -212,10 +217,9 @@ bot.on("message", function(message){
 				dispatcher.end("stopping");
 				currentSongIndex = 0;
 				serverQueue.songs = [];
-				message.member.voiceChannel.leave();
 				message.channel.send("Clearing queue and stopping music!");
 			}
-		/*else if(args.length > 0){
+				/*else if(args.length > 0){
 				var index = Number.parseInt(args[0]);
 				if(Number.isInteger(index)){
 					message.channel.send(`\`${serverQueue[index - 1].title}\` has been removed from the song queue`, {reply: message});
@@ -279,24 +283,20 @@ bot.on("message", function(message){
 			message.channel.send("No song is in the queue", {reply: message});
 		}
 	}
+
 	if (command === "volume") {
-		if(message.member.voiceChannel !== undefined){
-			if (args[1] < 0 || args[1] > 100) {
-				message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
-				return;
-			}
-			//volume[message.guild.id] = Number(args[1]) / 100;
-			//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));	
-			//var server = servers[message.guild.id];
-			//if (serverQueue.dispatcher) {
-			serverQueue.volume[message.guild.id] = args[1];
-			dispatcher.setVolumeLogarithmic(args[1] / 100);
-			message.channel.send(`Volume set: ${args[1]}%`);
-	
-		}else{
-			message.channel.send("You can't change volume if you're not in a voice channel :cry:", {reply: message});
+		if (args[1] < 0 || args[1] > 100) {
+			message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
+			return;
 		}
-	
+		//volume[message.guild.id] = Number(args[1]) / 100;
+		//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
+		//var server = servers[message.guild.id];
+		//if (serverQueue.dispatcher) {
+		serverQueue.volume[message.guild.id] = args[1];
+		dispatcher.setVolumeLogarithmic(args[1] / 100);
+		message.channel.send(`Volume set: ${args[1]}%`);
+		//}
 	}
 });
 
@@ -310,27 +310,27 @@ var addSong = function(message, url){
 
 		//message.channel.send(song.title + " info retrieved successfully");
 		if (!serverQueue) {
-			const queueConstruct = {
-				textChannel: message.channel,
-				connection: null,
-				songs: [],
-				volume: 3,
-				playing: true
-			};
+		const queueConstruct = {
+			textChannel: message.channel,
+			connection: null,
+			songs: [],
+			volume: 3,
+			playing: true
+		};
 
-			//message.channel.send("Queue construct created successfully.");
+		//message.channel.send("Queue construct created successfully.");
 
-			songQueue.set(message.guild.id, queueConstruct);
+		songQueue.set(message.guild.id, queueConstruct);
 
-			//message.channel.send("songQueue set successfully");
+		//message.channel.send("songQueue set successfully");
 
-			queueConstruct.songs.push(song);
+		queueConstruct.songs.push(song);
 		}
 		//message.channel.send("queuecontrsuct pushed successfully.");
 		else {
-			message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
+		message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, {reply: message});
 
-			serverQueue.songs.push(song);
+		serverQueue.songs.push(song);
 		}
 		if(!bot.voiceConnections.exists("channel", message.member.voiceChannel)){
 			message.member.voiceChannel.join().then(function(connection){
@@ -342,7 +342,7 @@ var addSong = function(message, url){
 		message.channel.send(err + "\n\n\n");
 		message.channel.send("Sorry I couldn't get info for that song :cry:", {reply: message});
 	});
-};
+}
 
 var playSong = function(message, connection){
 	const serverQueue = songQueue.get(message.guild.id);
@@ -352,55 +352,67 @@ var playSong = function(message, connection){
 		} while(currentSongIndex === previousSongIndex);
 	}
 
-	var currentSong = serverQueue.song[currentSongIndex];
+	var currentSong = serverQueue.songs[currentSongIndex];
 	if (currentSong) {
 	//message.channel.send("currentsong defined correctly");
-		var stream = ytdl(currentSong.url, {"filter": "audioonly"});
-		//message.channel.send("stream defined correctly");
-		dispatcher = connection.playStream(stream);
-		//message.channel.send("dispatcher defined correctly");
-		message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
-		//bot.user.setGame(currentSong.title);
-		//Workaround since above wouldn't work
-		dispatcher.player.on("warn", console.warn);
-		dispatcher.on("warn", console.warn);
-		dispatcher.on("error", console.error);
-		dispatcher.once("end", function(reason){
-			console.log("Song ended because: " + reason);
-			if(reason === "user" || reason === "Stream is not generating quickly enough."){
-				if(autoremove){
-					serverQueue.splice(currentSongIndex, 1);
-					if(serverQueue.songs.length === 0){
+	var stream = ytdl(currentSong.url, {"filter": "audioonly"});
+	//message.channel.send("stream defined correctly");
+	dispatcher = connection.playStream(stream);
+	//message.channel.send("dispatcher defined correctly");
+	message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
+	//bot.user.setGame(currentSong.title);
+	//Workaround since above wouldn't work
+	dispatcher.player.on("warn", console.warn);
+	dispatcher.on("warn", console.warn);
+	dispatcher.on("error", console.error);
+	dispatcher.once("end", function(reason){
+		console.log("Song ended because: " + reason);
+		if(reason === "user" || reason === "Stream is not generating quickly enough."){
+			if(autoremove){
+				serverQueue.splice(currentSongIndex, 1);
+				if(serverQueue.songs.length === 0){
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
-						message.member.voiceChannel.leave();
-					} else{
-						setTimeout(function(){
-							playSong(message, connection);
-						}, 500);
-					}
+					message.member.voiceChannel.leave();
 				} else{
-					currentSongIndex++;
-					if(currentSongIndex >= serverQueue.songs.length && !shuffle){
+					setTimeout(function(){
+						playSong(message, connection);
+					}, 500);
+				}
+			} else{
+				currentSongIndex++;
+				if(currentSongIndex >= serverQueue.songs.length && !shuffle){
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
-						message.member.voiceChannel.leave();
-						message.channel.send("Finished playing the song queue");
-					} else{
-						setTimeout(function(){
-							playSong(message, connection);
-						}, 500);
-					}
+					message.member.voiceChannel.leave();
+					message.channel.send("Finished playing the song queue");
+				} else{
+					setTimeout(function(){
+						playSong(message, connection);
+					}, 500);
 				}
-			} else if(reason === "prev" || reason === "next" || reason === "goto" || reason === "random"){
-				setTimeout(function(){
-					playSong(message, connection);
-				}, 500);
 			}
-		});
+		} else if(reason === "prev" || reason === "next" || reason === "goto" || reason === "random"){
+			setTimeout(function(){
+				playSong(message, connection);
+			}, 500);
+		}
+	});
+}
+}
+
+var checkForCommand = function(message) {
+	if (!message.author.bot && message.content.startsWith(prefix)) {
+		var args = message.content.substring(1).split(' ');
+		var command = args.splice(0, 1);
+		try {
+			commands[command].process(message, args);
+		} catch (e) {
+		}
 	}
 };
 
+
 function newFunction() {
-	return serverQueue.message.guild.id;
+	return queue.message.guild.id;
 }
