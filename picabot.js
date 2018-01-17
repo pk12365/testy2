@@ -63,7 +63,7 @@ bot.on("message", function(message) {
 	//Get command from message
 	let command = message.content.toLowerCase().split(" ")[0];
 	//Remove prefix from command string
-	command = command.slice(config.prefix.length);
+	command = command.slice(prefix.length);
 
 	if (command === "play") {
 		if (message.member.voiceChannel !== undefined) {
