@@ -74,7 +74,7 @@ bot.on("message", function(message) {
 				}
 				query += " " + args[args.length - 1];
 				var results = youtube.search.list({
-					"key": config.yt_api_key,
+					"key": process.env.GOOGLEAPIKEY,
 					"q": query,
 					"type": "video",
 					"maxResults": "1",
