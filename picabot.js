@@ -338,7 +338,7 @@ var addSong = function(message, url) {
 		message.channel.send(err + "\n\n\n");
 		message.channel.send("Sorry I couldn't get info for that song :cry:", { reply: message });
 	});
-};
+}
 
 var playSong = function(message, connection) {
 	const serverQueue = songQueue.get(message.guild.id);
@@ -395,7 +395,7 @@ var playSong = function(message, connection) {
 			}
 		});
 	}
-};
+}
 
 var checkForCommand = function(message) {
 	if (!message.author.bot && message.content.startsWith(prefix)) {
