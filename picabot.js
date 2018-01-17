@@ -6,7 +6,7 @@ const google = require("googleapis");
 const youtube = google.youtube("v3");
 //var config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
 const bot = new Discord.Client();
-const prefix = "$";
+const prefix = "..";
 const botChannelName = "icwbot2";
 var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
@@ -338,7 +338,7 @@ var addSong = function(message, url) {
 		message.channel.send(err + "\n\n\n");
 		message.channel.send("Sorry I couldn't get info for that song :cry:", { reply: message });
 	});
-}
+};
 
 var playSong = function(message, connection) {
 	const serverQueue = songQueue.get(message.guild.id);
@@ -395,7 +395,7 @@ var playSong = function(message, connection) {
 			}
 		});
 	}
-}
+};
 
 var checkForCommand = function(message) {
 	if (!message.author.bot && message.content.startsWith(prefix)) {
