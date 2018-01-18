@@ -120,21 +120,17 @@ bot.on("message", function(message) {
 
 	if (command === "prev") {
 		if (message.member.voiceChannel !== undefined) {
-			if (serverQueue.length > 0) {
-				previousSongIndex = currentSongIndex;
-				var amount = Number.parseInt(args[0]);
-				if (Number.isInteger(amount)) {
-					currentSongIndex -= amount;
-				} else {
-					currentSongIndex--;
-				}
-				if (currentSongIndex < 0) {
-					currentSongIndex = 0;
-				}
-				dispatcher.end("prev");
+			previousSongIndex = currentSongIndex;
+			var amount = Number.parseInt(args[0]);
+			if (Number.isInteger(amount)) {
+				currentSongIndex -= amount;
 			} else {
-				message.channel.send("There are no more songs :sob:", { reply: message });
+				currentSongIndex--;
 			}
+			if (currentSongIndex < 0) {
+				currentSongIndex = 0;
+			}
+			dispatcher.end("prev");
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
 		}
@@ -167,23 +163,18 @@ bot.on("message", function(message) {
 
 	if (command === "goto") {
 		if (message.member.voiceChannel !== undefined) {
-			if (serverQueue.length > 0) {
-				var index = Number.parseInt(args[0]);
-				if (Number.isInteger(index)) {
-					previousSongIndex = currentSongIndex;
-					currentSongIndex = index - 1;
-					if (currentSongIndex < 0) {
-						currentSongIndex = 0;
-					} else if (currentSongIndex > serverQueue.length - 1) {
-						currentSongIndex = serverQueue.length - 1;
-					}
-					dispatcher.end("goto");
-				} else {
-					message.channel.send(`\`${args[0]}\` is an invalid index`, { reply: message });
+			var index = Number.parseInt(args[0]);
+			if (Number.isInteger(index)) {
+				previousSongIndex = currentSongIndex;
+				currentSongIndex = index - 1;
+				if (currentSongIndex < 0) {
+					currentSongIndex = 0;
+				} else if (currentSongIndex > serverQueue.length - 1) {
+					currentSongIndex = serverQueue.length - 1;
 				}
+				dispatcher.end("goto");
 			} else {
-				message.channel.send("There are no more songs :sob:", { reply: message });
-			}
+				message.channel.send(`\`${args[0]}\` is an invalid index`, { reply: message });
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
 		}
