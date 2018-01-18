@@ -280,7 +280,7 @@ bot.on("message", function(message) {
 			//var server = servers[message.guild.id];
 			//if (serverQueue.dispatcher) {
 			serverQueue.volume[message.guild.id] = args[1];
-			dispatcher.setVolumeLogarithmic(args[1] / 100);
+			dispatcher.setVolumeLogarithmic(args[1] / 80);
 			message.channel.send(`Volume set: ${args[1]}%`);
 			//}
 		} else {
