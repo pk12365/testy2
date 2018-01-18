@@ -201,6 +201,7 @@ bot.on("message", function(message) {
 				dispatcher.end("stopping");
 				currentSongIndex = 0;
 				serverQueue.songs = [];
+				message.member.voiceChannel.leave();
 				message.channel.send("Clearing queue and stopping music!");
 			}
 			/*else if(args.length > 0){
