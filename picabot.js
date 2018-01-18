@@ -160,7 +160,6 @@ bot.on("message", function(message) {
 		}
 	}
 
-
 	if (command === "goto") {
 		if (message.member.voiceChannel !== undefined) {
 			var index = Number.parseInt(args[0]);
@@ -175,6 +174,7 @@ bot.on("message", function(message) {
 				dispatcher.end("goto");
 			} else {
 				message.channel.send(`\`${args[0]}\` is an invalid index`, { reply: message });
+			}
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
 		}
