@@ -277,7 +277,7 @@ bot.on("message", function(message) {
 
 	if (command === "volume") {
 		if (message.member.voiceChannel !== undefined) {
-			if (!guild.me.voiceChannel) {
+			if (!message.guild.me.voiceChannel) {
 				if (args[1] < 0 || args[1] > 100) {
 					message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
 					return;
