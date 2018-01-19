@@ -209,36 +209,40 @@ bot.on("message", function(message) {
 
 	if (command === "stop") {
 		if (message.member.voiceChannel !== undefined) {
-			if (serverQueue.songs.length === 0) {
-				message.channel.send("There are no songs to clear", { reply: message });
-			} else {
-				dispatcher.end("stopping");
-				currentSongIndex = 0;
-				serverQueue.songs = [];
-				message.member.voiceChannel.leave();
-				message.channel.send("Clearing queue and stopping music!");
+			if (!message.guild.me.voiceChannel) {
+				message.channel.send("bot is not in voice channel and nothing to play", { reply: message });
+					return;
 			}
-			/*else if(args.length > 0){
-				var index = Number.parseInt(args[0]);
-				if(Number.isInteger(index)){
-					message.channel.send(`\`${serverQueue[index - 1].title}\` has been removed from the song queue`, {reply: message});
-					serverQueue.songs.splice(index - 1, 1);
-					if(index - 1 <= currentSongIndex){
-						currentSongIndex--;
+				if (serverQueue.songs.length === 0) {
+					message.channel.send("There are no songs to clear", { reply: message });
+				} else {
+					dispatcher.end("stopping");
+					currentSongIndex = 0;
+					serverQueue.songs = [];
+					message.member.voiceChannel.leave();
+					message.channel.send("Clearing queue and stopping music!");
+				}
+				/*else if(args.length > 0){
+					var index = Number.parseInt(args[0]);
+					if(Number.isInteger(index)){
+						message.channel.send(`\`${serverQueue[index - 1].title}\` has been removed from the song queue`, {reply: message});
+						serverQueue.songs.splice(index - 1, 1);
+						if(index - 1 <= currentSongIndex){
+							currentSongIndex--;
+						}
+					} else{
+						message.channel.send(`\`${args[0]}\` is an invalid index`, {reply: message});
 					}
 				} else{
-					message.channel.send(`\`${args[0]}\` is an invalid index`, {reply: message});
-				}
-			} else{
-				dispatcher.end("clear");
-				currentSongIndex = 0;
-				serverQueue = [];
-				//bot.user.setGame(currentSong.title);
-				//Workaround since above wouldn't work
-				bot.user.setPresence({ game: { name: serverQueue.songs[0].title, type: 0 } });
-				message.member.voiceChannel.leave();
-				message.channel.send("The song queue has been cleared", {reply: message});
-			}*/
+					dispatcher.end("clear");
+					currentSongIndex = 0;
+					serverQueue = [];
+					//bot.user.setGame(currentSong.title);
+					//Workaround since above wouldn't work
+					bot.user.setPresence({ game: { name: serverQueue.songs[0].title, type: 0 } });
+					message.member.voiceChannel.leave();
+					message.channel.send("The song queue has been cleared", {reply: message});
+				}*/
 		} else {
 			message.channel.send("You can't stop music if you're not in a voice channel :cry:", {reply: message});
 		}
