@@ -282,18 +282,18 @@ bot.on("message", function(message) {
 					return;
 			}
 				if (args[1] > 100) {
-					message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
+					message.channel.send("Invalid Volume! Please provide a volume from 1 to 100.");
 					return;
 				}
-					if (args[1] < 0) {
-						message.channel.send("Invalid Volume! Please provide a volume from 0 to 100.");
+					if (args[1] < 1) {
+						message.channel.send("Invalid Volume! Please provide a volume from 1 to 100.");
 						return;
 					}
 				//volume[message.guild.id] = Number(args[1]) / 100;
 				//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
 				//var server = servers[message.guild.id];
 				//if (serverQueue.dispatcher) {
-				serverQueue.volume[message.guild.id] = args[1];
+				serverQueue.songs.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
 				defvolume = args[1];
 				message.channel.send(`Volume set: ${args[1]}%`);
