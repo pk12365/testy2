@@ -152,6 +152,8 @@ bot.on("message", function(message) {
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
 					bot.user.setPresence({ game: { name: "", type: 0 } });
+					serverQueue.songs = [];
+					currentSongIndex = 0;
 					message.member.voiceChannel.leave();
 					message.channel.send("Finished playing the song queue");
 				}
