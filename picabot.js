@@ -238,10 +238,9 @@ bot.on("message", function(message) {
 				bot.user.setPresence({ game: { name: serverQueue.songs[0].title, type: 0 } });
 				message.member.voiceChannel.leave();
 				message.channel.send("The song queue has been cleared", {reply: message});
-			}
-		} else{
-			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
-		}*/
+			}*/
+		} else {
+			message.channel.send("You can't stop music if you're not in a voice channel :cry:", {reply: message});
 		}
 	}
 
