@@ -157,7 +157,7 @@ bot.on("message", function(message) {
 				}
 				dispatcher.end("next");
 			} else {
-					message.channel.send("There are no more songs :sob:", { reply: message });
+				message.channel.send("There are no more songs :sob:", { reply: message });
 			}
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
