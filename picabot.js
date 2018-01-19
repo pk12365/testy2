@@ -65,6 +65,10 @@ bot.on("message", function(message) {
 	//Remove prefix from command string
 	command = command.slice(prefix.length);
 
+	if (command === "help") {
+		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
+	}
+
 	if (command === "play") {
 		if (message.member.voiceChannel !== undefined) {
 			if (args.length > 0) {
@@ -101,21 +105,29 @@ bot.on("message", function(message) {
 	}
 
 	if (command === "resume") {
-		if (serverQueue && !serverQueue.playing) {
-			serverQueue.playing = true;
-			dispatcher.resume();
-			return message.channel.send('▶ Resumed the music for you!');
+		if (message.member.voiceChannel !== undefined) {
+			if (serverQueue && !serverQueue.playing) {
+				serverQueue.playing = true;
+				dispatcher.resume();
+				return message.channel.send('▶ Resumed the music for you!');
+			}
+			return message.channel.send('There is nothing playing.');
+		} else {
+			message.channel.send("You can't resume music if you're not in a voice channel :cry:", { reply: message });
 		}
-		return message.channel.send('There is nothing playing.');
 	}
 
 	if (command === "pause") {
-		if (serverQueue && serverQueue.playing) {
-			serverQueue.playing = false;
-			dispatcher.pause();
-			return message.channel.send('⏸ Paused the music for you!');
+		if (message.member.voiceChannel !== undefined) {
+			if (serverQueue && serverQueue.playing) {
+				serverQueue.playing = false;
+				dispatcher.pause();
+				return message.channel.send('⏸ Paused the music for you!');
+			}
+			return message.channel.send('There is nothing playing.');
+		} else {
+			message.channel.send("You can't pause music if you're not in a voice channel :cry:", { reply: message });
 		}
-		return message.channel.send('There is nothing playing.');
 	}
 
 	if (command === "prev") {
@@ -132,7 +144,7 @@ bot.on("message", function(message) {
 			}
 			dispatcher.end("prev");
 		} else {
-			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
+			message.channel.send("You can't prev music if you're not in a voice channel :cry:", { reply: message });
 		}
 	}
 
@@ -162,7 +174,7 @@ bot.on("message", function(message) {
 				message.channel.send("There are no more songs :sob:", { reply: message });
 			}
 		} else {
-			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
+			message.channel.send("You can't skip music if you're not in a voice channel :cry:", { reply: message });
 		}
 	}
 
@@ -230,10 +242,9 @@ bot.on("message", function(message) {
 				bot.user.setPresence({ game: { name: serverQueue.songs[0].title, type: 0 } });
 				message.member.voiceChannel.leave();
 				message.channel.send("The song queue has been cleared", {reply: message});
-			}
+			}*/
 		} else{
-			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
-		}*/
+			message.channel.send("You can't stop music if you're not in a voice channel :cry:", {reply: message});
 		}
 	}
 
@@ -247,7 +258,7 @@ bot.on("message", function(message) {
 				message.channel.send("Song autoremoval is now enabled", { reply: message });
 			}
 		} else {
-			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
+			message.channel.send("You use this command if you're not in a voice channel :cry:", { reply: message });
 		}
 	}
 
@@ -293,9 +304,8 @@ bot.on("message", function(message) {
 				//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
 				//var server = servers[message.guild.id];
 				//if (serverQueue.dispatcher) {
-				serverQueue.songs.volume[message.guild.id] = args[1];
+				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
-				defvolume = args[1];
 				message.channel.send(`Volume set: ${args[1]}%`);
 				//}
 		} else {
