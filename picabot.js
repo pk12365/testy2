@@ -63,7 +63,7 @@ bot.on("message", function(message) {
 	//Get command from message
 	let command = message.content.toLowerCase().split(" ")[0];
 	//Remove prefix from command string
-	command = command(prefix.length);
+	command = command.slice(prefix.length);
 
 	if (command === "help") {
 		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
