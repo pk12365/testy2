@@ -139,7 +139,7 @@ bot.on("message", function(message) {
 
 	if (command === "skip") {
 		if (message.member.voiceChannel !== undefined) {
-			if (songQueue.length > 0) {
+			if (serverQueue.songs.length > 0) {
 				previousSongIndex = currentSongIndex;
 				var amount = Number.parseInt(args[0]);
 				if (Number.isInteger(amount)) {
