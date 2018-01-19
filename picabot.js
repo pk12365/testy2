@@ -147,8 +147,8 @@ bot.on("message", function(message) {
 				} else {
 					currentSongIndex++;
 				}
-				if (currentSongIndex > serverQueue.length - 1) {
-					currentSongIndex = serverQueue.length - 1;
+				if (currentSongIndex > serverQueue.songs.length - 1) {
+					currentSongIndex = serverQueue.songs.length - 1;
 					//bot.user.setGame(currentSong.title);
 					//Workaround since above wouldn't work
 					bot.user.setPresence({ game: { name: "", type: 0 } });
