@@ -65,10 +65,6 @@ bot.on("message", function(message) {
 	//Remove prefix from command string
 	command = command.slice(prefix.length);
 
-	if (command === "help") {
-		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
-	}
-
 	if (command === "play") {
 		if (message.member.voiceChannel !== undefined) {
 			if (args.length > 0) {
@@ -174,7 +170,7 @@ bot.on("message", function(message) {
 				message.channel.send("There are no more songs :sob:", { reply: message });
 			}
 		} else {
-			message.channel.send("You can't skip music if you're not in a voice channel :cry:", { reply: message });
+			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
 		}
 	}
 
@@ -242,9 +238,10 @@ bot.on("message", function(message) {
 				bot.user.setPresence({ game: { name: serverQueue.songs[0].title, type: 0 } });
 				message.member.voiceChannel.leave();
 				message.channel.send("The song queue has been cleared", {reply: message});
-			}*/
+			}
 		} else{
-			message.channel.send("You can't stop music if you're not in a voice channel :cry:", {reply: message});
+			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", {reply: message});
+		}*/
 		}
 	}
 
@@ -258,7 +255,7 @@ bot.on("message", function(message) {
 				message.channel.send("Song autoremoval is now enabled", { reply: message });
 			}
 		} else {
-			message.channel.send("You use this command if you're not in a voice channel :cry:", { reply: message });
+			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
 		}
 	}
 
