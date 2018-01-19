@@ -139,22 +139,26 @@ bot.on("message", function(message) {
 
 	if (command === "skip") {
 		if (message.member.voiceChannel !== undefined) {
-			previousSongIndex = currentSongIndex;
-			var amount = Number.parseInt(args[0]);
-			if (Number.isInteger(amount)) {
-				currentSongIndex += amount;
+			if (songQueue.length > 0) {
+				previousSongIndex = currentSongIndex;
+				var amount = Number.parseInt(args[0]);
+				if (Number.isInteger(amount)) {
+					currentSongIndex += amount;
+				} else {
+					currentSongIndex++;
+				}
+				if (currentSongIndex > serverQueue.length - 1) {
+					currentSongIndex = serverQueue.length - 1;
+					//bot.user.setGame(currentSong.title);
+					//Workaround since above wouldn't work
+					bot.user.setPresence({ game: { name: "", type: 0 } });
+					message.member.voiceChannel.leave();
+					message.channel.send("Finished playing the song queue");
+				}
+				dispatcher.end("next");
 			} else {
-				currentSongIndex++;
+					message.channel.send("There are no more songs :sob:", { reply: message });
 			}
-			if (currentSongIndex > serverQueue.length - 1) {
-				currentSongIndex = serverQueue.length - 1;
-				//bot.user.setGame(currentSong.title);
-				//Workaround since above wouldn't work
-				bot.user.setPresence({ game: { name: "", type: 0 } });
-				message.member.voiceChannel.leave();
-				message.channel.send("Finished playing the song queue");
-			}
-			dispatcher.end("next");
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
 		}
@@ -284,7 +288,7 @@ bot.on("message", function(message) {
 			message.channel.send(`Volume set: ${args[1]}%`);
 			//}
 		} else {
-			message.channel.send("No song is in the queue", { reply: message });
+			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
 		}
 	}
 });
