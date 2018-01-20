@@ -332,7 +332,7 @@ var addSong = function(message, url) {
 				textChannel: message.channel,
 				connection: null,
 				songs: [],
-				volume: 3,
+				volume: args[1],
 				playing: true
 			};
 
