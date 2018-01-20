@@ -1,3 +1,5 @@
+import { VolumeInterface } from "discord.js";
+
 require("dotenv").config();
 const Discord = require("discord.js");
 const ytdl = require("ytdl-core");
@@ -296,11 +298,11 @@ bot.on("message", function(message) {
 				message.channel.send("bot is not in voice channel", { reply: message });
 					return;
 			}
-				if (args[1] > 100) {
+				if (volumeLevel > 100) {
 					message.channel.send("Invalid Volume! Please provide a volume from 1 to 100.");
 					return;
 				}
-					if (args[1] < 1) {
+					if (volumeLevel < 1) {
 						message.channel.send("Invalid Volume! Please provide a volume from 1 to 100.");
 						return;
 					}
@@ -308,9 +310,12 @@ bot.on("message", function(message) {
 				//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
 				//var server = servers[message.guild.id];
 				//if (serverQueue.dispatcher) {
-				serverQueue.volume[message.guild.id] = args[1];
-				dispatcher.setVolumeLogarithmic(args[1] / 80);
-				message.channel.send(`Volume set: ${args[1]}%`);
+				//serverQueue.volume[message.guild.id] = volumeLevel / 80;
+				//dispatcher.setVolumeLogarithmic(volumeLevel);
+				volumeLevel = volumeLevel / 100;
+				dispatcher.setVolume(volumeLevel);
+				defVolume = volumeLevel
+				message.channel.send(`Volume set: ${volumeLevel}%`);
 				//}
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
@@ -375,6 +380,7 @@ var playSong = function(message, connection) {
 		var stream = ytdl(currentSong.url, { "filter": "audioonly" });
 		//message.channel.send("stream defined correctly");
 		dispatcher = connection.playStream(stream);
+		dispatcher.setVolume(defVolume);
 		//message.channel.send("dispatcher defined correctly");
 		message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
 		//bot.user.setGame(currentSong.title);
