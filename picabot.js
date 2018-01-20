@@ -296,11 +296,11 @@ bot.on("message", function(message) {
 				message.channel.send("bot is not in voice channel", { reply: message });
 					return;
 			}
-				if (volumeLevel > 100) {
+				if (args[1] > 100) {
 					message.channel.send("Invalid Volume! Please provide a volume from 1 to 100.");
 					return;
 				}
-					if (volumeLevel < 1) {
+					if (args[1] < 1) {
 						message.channel.send("Invalid Volume! Please provide a volume from 1 to 100.");
 						return;
 					}
@@ -308,12 +308,9 @@ bot.on("message", function(message) {
 				//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
 				//var server = servers[message.guild.id];
 				//if (serverQueue.dispatcher) {
-				serverQueue.volume[message.guild.id] = volumeLevel;
-				dispatcher.setVolumeLogarithmic(volumeLevel / 80);
-				//volumeLevel = volumeLevel/100;
-				//dispatcher.setVolume(volumeLevel);
-				//defVolume = volumeLevel
-				message.channel.send(`Volume set: ${volumeLevel}%`);
+				serverQueue.volume[message.guild.id] = args[1];
+				dispatcher.setVolumeLogarithmic(args[1] / 80);
+				message.channel.send(`Volume set: ${args[1]}%`);
 				//}
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
