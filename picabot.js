@@ -308,11 +308,11 @@ bot.on("message", function(message) {
 				//server.dispatcher = connection.playStream(YTDL(video.url, { filter: "audioonly" }));
 				//var server = servers[message.guild.id];
 				//if (serverQueue.dispatcher) {
-				//serverQueue.volume[message.guild.id] = volumeLevel / 80;
-				//dispatcher.setVolumeLogarithmic(volumeLevel);
-				volumeLevel = volumeLevel / 100;
-				dispatcher.setVolume(volumeLevel);
-				defVolume = volumeLevel
+				serverQueue.volume[message.guild.id] = volumeLevel;
+				dispatcher.setVolumeLogarithmic(volumeLevel / 80);
+				//volumeLevel = volumeLevel/100;
+				//dispatcher.setVolume(volumeLevel);
+				//defVolume = volumeLevel
 				message.channel.send(`Volume set: ${volumeLevel}%`);
 				//}
 		} else {
@@ -378,7 +378,6 @@ var playSong = function(message, connection) {
 		var stream = ytdl(currentSong.url, { "filter": "audioonly" });
 		//message.channel.send("stream defined correctly");
 		dispatcher = connection.playStream(stream);
-		dispatcher.setVolume(defVolume);
 		//message.channel.send("dispatcher defined correctly");
 		message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
 		//bot.user.setGame(currentSong.title);
