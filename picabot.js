@@ -309,7 +309,6 @@ bot.on("message", function(message) {
 				//var server = servers[message.guild.id];
 				//if (serverQueue.dispatcher) {
 				serverQueue.volume[message.guild.id] = args[1];
-				dispatcher.setVolumeLogarithmic(args[1] / 80);
 				message.channel.send(`Volume set: ${args[1]}%`);
 				//}
 		} else {
@@ -374,7 +373,7 @@ var playSong = function(message, connection) {
 		//message.channel.send("currentsong defined correctly");
 		var stream = ytdl(currentSong.url, { "filter": "audioonly" });
 		//message.channel.send("stream defined correctly");
-		dispatcher = connection.playStream(stream, { volume: serverQueue.volume[message.guild.id]});
+		dispatcher = connection.playStream(stream, { volume: serverQueue.volume[message.guild.id] / 80});
 		//message.channel.send("dispatcher defined correctly");
 		message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
 		//bot.user.setGame(currentSong.title);
