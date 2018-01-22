@@ -309,7 +309,7 @@ bot.on("message", function(message) {
 				message.channel.send({embed: {color: 15844367,
 							      title: 'volume controls',
 							      description: `volume set ${args[1]}%`,
-							      footer: ("changed by", message.author.avatarURL())
+							      footer: ("changed by", `${message.author.displayAvatarURL}`())
 							     }
 						     });
 				//}
