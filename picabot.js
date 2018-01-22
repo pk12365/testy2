@@ -310,7 +310,7 @@ bot.on("message", function(message) {
 					.setTitle("volume controls")
 					.setDescription(`volume set ${args[1]}%`)
 					.setFooter(`changed by ${message.author.username}`)
-					.setThumbnail(`${message.author.displayavatarURL}`);
+					.setThumbnail(`${message.author.avatarURL}`);
 				message.channel.send({embed: embed});
 				//}
 		} else {
