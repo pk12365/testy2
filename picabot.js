@@ -306,10 +306,10 @@ bot.on("message", function(message) {
 					}
 				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
-			var embed = new Discord.RichEmbed()
-			.setTitle("volume controls")
-			.setDescription(`volume set ${args[1]}%`)
-			.setFields(`changed by ${message.author.username}`)
+				var embed = new Discord.RichEmbed()
+				.setTitle("volume controls");
+				.setDescription(`volume set ${args[1]}%`);
+				.setFields(`changed by ${message.author.username}`);
 				message.channel.send({embed: embed});
 				//}
 		} else {
