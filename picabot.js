@@ -308,7 +308,8 @@ bot.on("message", function(message) {
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
 				message.channel.send({embed: {"color": "15844367",
 							      "title": "volume controls",
-							      "description": (`volume set ${args[1]}%`, `changed by ${message.author.username}`)
+							      "description": `volume set ${args[1]}%`,
+							      "fields": (`changed by ${message.author.username}`)
 							     }
 						     });
 				//}
