@@ -309,7 +309,7 @@ bot.on("message", function(message) {
 				var embed = new Discord.RichEmbed()
 					.setTitle("volume controls")
 					.setDescription(`volume set ${args[1]}%`)
-					.setFooter("changed by" ${message.author.displayAvatarURL}, ${message.author.username});
+					.setFooter("Sent by: " + message.author.username.toString(), message.author.avatarURL)
 				message.channel.send({embed: embed});
 				//}
 		} else {
