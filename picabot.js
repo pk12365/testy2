@@ -377,11 +377,11 @@ var playSong = function(message, connection) {
 		//message.channel.send("stream defined correctly");
 		dispatcher = connection.playStream(stream, { volume: serverQueue.volume[message.guild.id] / 80});
 		//message.channel.send("dispatcher defined correctly");
-		var setvolembed = new Discord.RichEmbed()
+		var nowplayembed = new Discord.RichEmbed()
 		.setTitle("Now Playing")
 		.setDescription(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
 		.setFooter("Added by: " + currentSong.user.username, currentSong.user.avatarURL);
-		message.channel.send();
+		message.channel.send({embed: nowplayembed});
 		//bot.user.setGame(currentSong.title);
 		//Workaround since above wouldn't work
 		dispatcher.player.on("warn", console.warn);
