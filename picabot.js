@@ -306,12 +306,11 @@ bot.on("message", function(message) {
 					}
 				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
-				message.channel.send({embed: {"color": "15844367",
-							      "title": "volume controls",
-							      "description": `volume set ${args[1]}%`,
-							      "fields": (`changed by ${message.author.username}`)
-							     }
-						     });
+			var embed = new Discord.RichEmbed()
+			.setTitle("volume controls")
+			.setDescription(`volume set ${args[1]}%`)
+			.setFields(`changed by ${message.author.username}`)
+				message.channel.send({embed: embed});
 				//}
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
