@@ -306,10 +306,10 @@ bot.on("message", function(message) {
 					}
 				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
-				message.channel.send({embed: {color: 15844367,
-							      title: 'volume controls',
-							      description: `volume set ${args[1]}%`,
-							      footer: `changed by ${message.author.username}`
+				message.channel.send({embed: {"color": "15844367",
+							      "title": "volume controls",
+							      "description": `volume set ${args[1]}%`,
+							      "footer": "testname"
 							     }
 						     });
 				//}
