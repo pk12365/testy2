@@ -423,4 +423,4 @@ var mbrnotinvoice = new Discord.RichEmbed()
 .setTitle("Please join voice channel first")
 .setDescription("You can't hear my music if you're not in a voice channel :cry")
 .setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
-.setFooter("created by: PK#1650", ["https://images-ext-2.discordapp.net/external/frpYpyjwBlulj605FqoC0BdwLqru0zkcydHkPyPFX-o/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/264470521788366848/12898f09625f56b8f31d69920949b2af.webp?width=300&height=300"] );
+.setFooter("created by: PK#1650", "https://images-ext-2.discordapp.net/external/frpYpyjwBlulj605FqoC0BdwLqru0zkcydHkPyPFX-o/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/264470521788366848/12898f09625f56b8f31d69920949b2af.webp?width=300&height=300");
