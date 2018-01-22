@@ -325,7 +325,7 @@ var addSong = function(message, url) {
 		var song = {};
 		song.title = info.title;
 		song.url = url;
-		song.thumbnail = info.thumbnailUrl;
+		song.thumbnail = thumbnailurl;
 		song.user = message.author.username;
 
 		//message.channel.send(song.title + " info retrieved successfully");
@@ -381,7 +381,7 @@ var playSong = function(message, connection) {
 		var nowplayembed = new Discord.RichEmbed()
 		.setTitle("Now Playing")
 		.setDescription(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
-		.setThumbnail(currentSong.url)
+		.setThumbnail(`${currentSong.url}`)
 		.setFooter("Added by: " + `${currentSong.user}`);
 		message.channel.send({embed: nowplayembed});
 		//bot.user.setGame(currentSong.title);
