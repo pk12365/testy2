@@ -306,12 +306,7 @@ bot.on("message", function(message) {
 					}
 				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
-				var embed = new Discord.RichEmbed()
-					.setTitle("volume controls")
-					.setDescription(`volume set ${args[1]}%`)
-					.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
-					.setFooter("Changed by: " + message.author.username.toString(), message.author.avatarURL);
-				message.channel.send({embed: embed});
+				message.channel.send({embed: setvolembed});
 				//}
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
@@ -419,17 +414,8 @@ var playSong = function(message, connection) {
 	}
 };
 
-var checkForCommand = function(message) {
-	if (!message.author.bot && message.content.startsWith(prefix)) {
-		var args = message.content.substring(1).split(' ');
-		var command = args.splice(0, 1);
-		try {
-			commands[command].process(message, args);
-		} catch (e) {}
-	}
-};
-
-
-function newFunction() {
-	return queue.message.guild.id;
-}
+var setvolembed = new Discord.RichEmbed()
+.setTitle("volume controls")
+.setDescription(`volume set ${args[1]}%`)
+.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
+.setFooter("Changed by: " + message.author.username.toString(), message.author.avatarURL);
