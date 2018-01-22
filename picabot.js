@@ -306,7 +306,12 @@ bot.on("message", function(message) {
 					}
 				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
-				message.channel.send({embed: {color: 15844367, title: 'volume controls', description: `volume set ${args[1]}%`, icon: (message.author.avatarURL)}});
+				message.channel.send({embed: {color: 15844367,
+							      title: 'volume controls',
+							      description: `volume set ${args[1]}%`,
+							      footer: ("changed by", message.author.avatarURL())
+							     }
+						     });
 				//}
 		} else {
 			message.channel.send("You can't hear my music if you're not in a voice channel :cry:", { reply: message });
