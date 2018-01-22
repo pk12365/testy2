@@ -314,7 +314,7 @@ bot.on("message", function(message) {
 				message.channel.send({embed: setvolembed});
 				//}
 		} else {
-			message.channel.send({embed: mbrnotinvoice});
+			message.channel.send("you cant change volume if you are not in voice channel", { reply: message});
 		}
 	}
 });
@@ -377,7 +377,11 @@ var playSong = function(message, connection) {
 		//message.channel.send("stream defined correctly");
 		dispatcher = connection.playStream(stream, { volume: serverQueue.volume[message.guild.id] / 80});
 		//message.channel.send("dispatcher defined correctly");
-		message.channel.send(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:, added by ${currentSong.user}`);
+		var setvolembed = new Discord.RichEmbed()
+		.setTitle("Now Playing")
+		.setDescription(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
+		.setFooter("Added by: " + currentSong.user.username.toString(), currentSong.user.avatarURL);
+		message.channel.send();
 		//bot.user.setGame(currentSong.title);
 		//Workaround since above wouldn't work
 		dispatcher.player.on("warn", console.warn);
@@ -419,8 +423,17 @@ var playSong = function(message, connection) {
 	}
 };
 
-var mbrnotinvoice = new Discord.RichEmbed()
-.setTitle("Please join voice channel first")
-.setDescription("You can't hear my music if you're not in a voice channel 😭")
-.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
-.setFooter("created by: PK#1650", "https://images-ext-2.discordapp.net/external/frpYpyjwBlulj605FqoC0BdwLqru0zkcydHkPyPFX-o/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/264470521788366848/12898f09625f56b8f31d69920949b2af.webp?width=300&height=300");
+var checkForCommand = function(message) {
+	if (!message.author.bot && message.content.startsWith(prefix)) {
+		var args = message.content.substring(1).split(' ');
+		var command = args.splice(0, 1);
+		try {
+			commands[command].process(message, args);
+		} catch (e) {}
+	}
+};
+
+
+function newFunction() {
+	return queue.message.guild.id;
+}
