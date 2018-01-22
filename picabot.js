@@ -325,6 +325,7 @@ var addSong = function(message, url) {
 		var song = {};
 		song.title = info.title;
 		song.url = url;
+		song.thumbnail = videoInfo.thumbnailUrl;
 		song.user = message.author.username;
 
 		//message.channel.send(song.title + " info retrieved successfully");
@@ -347,7 +348,7 @@ var addSong = function(message, url) {
 		}
 		//message.channel.send("queuecontrsuct pushed successfully.");
 		else {
-			message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:`, { reply: message });
+			message.channel.send(`I have added \`${info.title} ${info.thumbnail}\` to the song queue! :headphones:`, { reply: message });
 
 			serverQueue.songs.push(song);
 		}
