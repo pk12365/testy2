@@ -309,7 +309,7 @@ bot.on("message", function(message) {
 				var embed = new Discord.RichEmbed()
 					.setTitle("volume controls")
 					.setDescription(`volume set ${args[1]}%`)
-					.setThumbnail(`https://images-ext-2.discordapp.net/external/frpYpyjwBlulj605FqoC0BdwLqru0zkcydHkPyPFX-o/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/264470521788366848/12898f09625f56b8f31d69920949b2af.webp?width=300&height=300`)
+					.setThumbnail("https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
 					.setFooter("Changed by: " + message.author.username.toString(), message.author.avatarURL);
 				message.channel.send({embed: embed});
 				//}
