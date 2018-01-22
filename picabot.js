@@ -348,7 +348,7 @@ var addSong = function(message, url) {
 		}
 		//message.channel.send("queuecontrsuct pushed successfully.");
 		else {
-			message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones:` `${url}`, { reply: message });
+			message.channel.send(`I have added \`${info.title}\` to the song queue! :headphones: ${url}`, { reply: message });
 
 			serverQueue.songs.push(song);
 		}
