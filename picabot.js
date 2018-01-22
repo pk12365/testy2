@@ -380,7 +380,7 @@ var playSong = function(message, connection) {
 		var setvolembed = new Discord.RichEmbed()
 		.setTitle("Now Playing")
 		.setDescription(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
-		.setFooter("Added by: " + currentSong.user.username.toString(), currentSong.user.avatarURL);
+		.setFooter("Added by: " + currentSong.user.username, currentSong.user.avatarURL);
 		message.channel.send();
 		//bot.user.setGame(currentSong.title);
 		//Workaround since above wouldn't work
