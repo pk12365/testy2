@@ -379,6 +379,7 @@ var playSong = function(message, connection) {
 		dispatcher = connection.playStream(stream, { volume: serverQueue.volume[message.guild.id] / 80});
 		//message.channel.send("dispatcher defined correctly");
 		var nowplayembed = new Discord.RichEmbed()
+		.setColor(0x0060FF)
 		.setAuthor(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
 		.setDescription("link here" + currentSong.url)
 		.setURL(`${currentSong.url}`)
