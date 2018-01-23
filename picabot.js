@@ -357,7 +357,7 @@ var addSong = function(message, url) {
 			var addsongembed = new Discord.RichEmbed()
 			.setColor(0x0290FF)
 			.setAuthor(`I have added \`${info.title}\` to the song queue!`)
-			.setDescription("link here: " + url)
+			.setDescription("link here: " + `[click](${url})`)
 			.setURL(`${url}`)
 			.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
 			.setFooter("Added by: " + message.author.username.toString(), message.author.avatarURL)
