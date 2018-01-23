@@ -345,6 +345,9 @@ var addSong = function(message, url) {
 			//message.channel.send("songQueue set successfully");
 
 			queueConstruct.songs.push(song);
+		}
+		//message.channel.send("queuecontrsuct pushed successfully.");
+		else {
 			var addsongembed = new Discord.RichEmbed()
 			.setColor(0x0290FF)
 			.setAuthor(`I have added \`${info.title}\` to the song queue!`)
@@ -353,10 +356,7 @@ var addSong = function(message, url) {
 			.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
 			.setFooter("Requested by: " + `${message.author.user}`, message.author.usravatar)
 			.setTimestamp();
-		}
-		//message.channel.send("queuecontrsuct pushed successfully.");
-		else {
-			message.channel.send(`I have added \`${info.title}\` to the song queue!`, { reply: message });
+			message.channel.send({embed: addsongembed});
 
 			serverQueue.songs.push(song);
 		}
