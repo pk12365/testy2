@@ -381,7 +381,7 @@ var playSong = function(message, connection) {
 		var nowplayembed = new Discord.RichEmbed()
 		.setAuthor(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
 		.setDescription("link here")
-		.setURL(currentSong.url)
+		.setURL(`${currentSong.url}`)
 		.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
 		.setFooter("Added by: " + `${currentSong.user}`, currentSong.usravatar)
 		.setTimestamp();
