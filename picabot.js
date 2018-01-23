@@ -325,6 +325,7 @@ var addSong = function(message, url) {
 		var song = {};
 		song.title = info.title;
 		song.url = url;
+		song.thumbnails = info.thumbnails.high.url;
 		song.user = message.author.username;
 
 		//message.channel.send(song.title + " info retrieved successfully");
