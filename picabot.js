@@ -168,7 +168,7 @@ bot.on("message", function(message) {
 					currentSongIndex = 0;
 					message.member.voiceChannel.leave();
 					var finishembed = new Discord.RichEmbed()
-					.setAuthor("Finished playing becuse no more song in the queue")
+					.setAuthor("Finished playing because no more song in the queue")
 					.setDescription("please add more song if you like", ":headphones:")
 					.setFooter("Developed by: PK#1650 ", "https://media.discordapp.net/attachments/399064303170224131/405327147599659008/IMG_20180123_170856.jpg")
 					.setTimestamp();
@@ -427,7 +427,7 @@ var playSong = function(message, connection) {
 						//Workaround since above wouldn't work
 						message.member.voiceChannel.leave();
 						var finishembed = new Discord.RichEmbed()
-						.setAuthor("Finished playing becuse no more song in the queue")
+						.setAuthor("Finished playing because no more song in the queue")
 						.setDescription("please add more song if you like", ":headphones:")
 						.setFooter("Developed by: PK#1650 ", "https://media.discordapp.net/attachments/399064303170224131/405327147599659008/IMG_20180123_170856.jpg")
 						.setTimestamp();
