@@ -380,10 +380,10 @@ var playSong = function(message, connection) {
 		var nowplayembed = new Discord.RichEmbed()
 		.setTitle("Now Playing")
 		.setDescription(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
-		.setThumbnail(currentSong.thumbnails.url)
+		.setThumbnail(currentSong.thumbnails)
 		.setFooter("Added by: " + `${currentSong.user}`);
 		message.channel.send({embed: nowplayembed});
-		message.channel.send(`${currentSong.thumbnails.url}`);
+		message.channel.send(currentSong.thumbnails);
 		//bot.user.setGame(currentSong.title);
 		//Workaround since above wouldn't work
 		dispatcher.player.on("warn", console.warn);
