@@ -326,6 +326,7 @@ var addSong = function(message, url) {
 		song.title = info.title;
 		song.url = url;
 		song.user = message.author.username;
+		song.usravatar = message.author.avatarURL;
 
 		//message.channel.send(song.title + " info retrieved successfully");
 		if (!serverQueue) {
@@ -381,7 +382,7 @@ var playSong = function(message, connection) {
 		.setTitle("Now Playing")
 		.setDescription(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\` :musical_note:`)
 		.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
-		.setFooter("Added by: " + `${currentSong.user}`)
+		.setFooter("Added by: " + `${currentSong.user}`, currentSong.usravatar)
 		.setTimestamp();
 		message.channel.send({embed: nowplayembed});
 		//bot.user.setGame(currentSong.title);
