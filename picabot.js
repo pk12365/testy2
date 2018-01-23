@@ -167,6 +167,11 @@ bot.on("message", function(message) {
 					serverQueue.songs = [];
 					currentSongIndex = 0;
 					message.member.voiceChannel.leave();
+					var setvolembed = new Discord.RichEmbed()
+					.setAuthor("Finished playing the song queue")
+					.setDescription("bye bye")
+					.setFooter("Developed by: PK#1650 " +"https://images-ext-2.discordapp.net/external/frpYpyjwBlulj605FqoC0BdwLqru0zkcydHkPyPFX-o/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/264470521788366848/12898f09625f56b8f31d69920949b2af.webp?width=300&height=300")
+					.setTimestamp();
 					message.channel.send("Finished playing the song queue");
 				}
 				dispatcher.end("next");
