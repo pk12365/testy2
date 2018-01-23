@@ -168,8 +168,8 @@ bot.on("message", function(message) {
 					currentSongIndex = 0;
 					message.member.voiceChannel.leave();
 					var finishembed = new Discord.RichEmbed()
-					.setAuthor("Finished playing the song queue")
-					.setDescription("bye bye")
+					.setAuthor("Finished playing becuse no more song in the queue")
+					.setDescription("please add more song & if you like", `:headphones:`)
 					.setFooter("Developed by: PK#1650 ", "https://media.discordapp.net/attachments/399064303170224131/405327147599659008/IMG_20180123_170856.jpg")
 					.setTimestamp();
 					message.channel.send({embed: finishembed});
