@@ -426,7 +426,12 @@ var playSong = function(message, connection) {
 						//bot.user.setGame(currentSong.title);
 						//Workaround since above wouldn't work
 						message.member.voiceChannel.leave();
-						message.channel.send("Finished playing the song queue");
+						var finishembed = new Discord.RichEmbed()
+						.setAuthor("Finished playing becuse no more song in the queue")
+						.setDescription("please add more song if you like", ":headphones:")
+						.setFooter("Developed by: PK#1650 ", "https://media.discordapp.net/attachments/399064303170224131/405327147599659008/IMG_20180123_170856.jpg")
+						.setTimestamp();
+						message.channel.send({embed: finishembed});
 					} else {
 						setTimeout(function() {
 							playSong(message, connection);
