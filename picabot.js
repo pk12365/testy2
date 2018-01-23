@@ -325,7 +325,6 @@ var addSong = function(message, url) {
 		var song = {};
 		song.title = info.title;
 		song.url = url;
-		song.thumbnails = info.thumbnails.high.url;
 		song.user = message.author.username;
 
 		//message.channel.send(song.title + " info retrieved successfully");
@@ -384,7 +383,6 @@ var playSong = function(message, connection) {
 		.setThumbnail(currentSong.thumbnails.high.url)
 		.setFooter("Added by: " + `${currentSong.user}`);
 		message.channel.send({embed: nowplayembed});
-		message.channel.send(currentSong.thumbnails.high.url);
 		//bot.user.setGame(currentSong.title);
 		//Workaround since above wouldn't work
 		dispatcher.player.on("warn", console.warn);
