@@ -320,7 +320,7 @@ bot.on("message", function(message) {
 				.setColor(0xFF007F)
 				.setAuthor(`The current song is \`${serverQueue.songs[currentSongIndex].title}\` 🎧`)
 				.setDescription("link here: " + `[click](${serverQueue.songs[currentSongIndex].url})`)
-				.setThumbnail(`${currentSong.thumbnail}`)
+				.setThumbnail(`${serverQueue.songs[currentSongIndex].thumbnail}`)
 				.setFooter(`Added by ${serverQueue.songs[currentSongIndex].user}`, serverQueue.songs[currentSongIndex].usravatar)
 				.setTimestamp();
 				message.channel.send({embed: songembed});
