@@ -264,7 +264,7 @@ bot.on("message", function(message) {
 					message.member.voiceChannel.leave();
 					var stopembed = new Discord.RichEmbed()
 						.setColor(0x008000)
-						.setAuthor("Finished playing using by stop command", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
+						.setAuthor("Finished playing by stop command", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 						.setDescription("thanks for using see you soon bye bye 👋")
 						.setFooter("Stoped by: " + message.author.username.toString(), message.author.avatarURL)
 						.setTimestamp();
@@ -316,6 +316,12 @@ bot.on("message", function(message) {
 				return;
 		}
 			if (serverQueue.songs.length > 0) {
+				var queueembed = new Discord.RichEmbed()
+				.setColor(0xFF007F)
+				.setAuthor(`The current song is \`${serverQueue.songs[currentSongIndex].title}\` 🎧`)
+				.setDescription("link here: " + `[click](${serverQueue.songs[currentSongIndex].url})`)
+				.setFooter(`Added by ${serverQueue.songs[currentSongIndex].username}`, serverQueue.songs[currentSongIndex].usravatar)
+				.setTimestamp()
 				message.channel.send(`The current song is \`${serverQueue.songs[currentSongIndex].title}\` :musical_note:, added by ${serverQueue.songs[currentSongIndex].user}`, { reply: message });
 			} else {
 				message.channel.send("No song is in the queue", { reply: message });
