@@ -168,7 +168,7 @@ bot.on("message", function(message) {
 					currentSongIndex = 0;
 					message.member.voiceChannel.leave();
 					var finishembed = new Discord.RichEmbed()
-					.setAuthor("Finished playing because no more song in the queue")
+					.setAuthor("Finished playing because no more song in the queue", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 					.setDescription("please add more song if you like", ":headphones:")
 					.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 					.setTimestamp();
@@ -312,7 +312,7 @@ bot.on("message", function(message) {
 				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
 				var setvolembed = new Discord.RichEmbed()
-					.setTitle("volume controls")
+					.setAuthor("volume controls", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 					.setDescription(`volume set ${args[1]}%`)
 					.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
 					.setFooter("Changed by: " + message.author.username.toString(), message.author.avatarURL)
@@ -356,7 +356,7 @@ var addSong = function(message, url) {
 		else {
 			var addsongembed = new Discord.RichEmbed()
 			.setColor(0x0290FF)
-			.setAuthor(`I have added \`${info.title}\` to the song queue!`)
+			.setAuthor(`I have added \`${info.title}\` to the song queue!`, "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 			.setDescription("link here: " + `[click](${url})`)
 			.setURL(`${url}`)
 			.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
@@ -394,7 +394,7 @@ var playSong = function(message, connection) {
 		//message.channel.send("dispatcher defined correctly");
 		var nowplayembed = new Discord.RichEmbed()
 		.setColor(0x0190FF)
-		.setAuthor(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\``)
+		.setAuthor(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\``, "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 		.setDescription("link here: " + `[click](${currentSong.url})`)
 		.setURL(`${currentSong.url}`)
 		.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
@@ -427,7 +427,7 @@ var playSong = function(message, connection) {
 						//Workaround since above wouldn't work
 						message.member.voiceChannel.leave();
 						var finishembed = new Discord.RichEmbed()
-						.setAuthor("Finished playing because no more song in the queue")
+						.setAuthor("Finished playing because no more song in the queue", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 						.setDescription("please add more song if you like", ":headphones:")
 						.setFooter("Developed by: PK#1650 ", "https://media.discordapp.net/attachments/399064303170224131/405327147599659008/IMG_20180123_170856.jpg")
 						.setTimestamp();
