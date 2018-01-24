@@ -329,7 +329,10 @@ bot.on("message", function(message) {
 						songList += `\`${i + 1}. ${serverQueue.songs[i].title}\`\n`;
 					}
 				}
-				message.channel.send("The song queue currently has:\n" + songList, { reply: message });
+				var queueembed = new Discord.RichEmbed()
+				.setAuthor("The song queue currently has:")
+				.setDescription(`${songList}`)
+				message.channel.send({embed: queueembed});
 			} else {
 				message.channel.send("No song is in the queue", { reply: message });
 			}
