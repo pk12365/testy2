@@ -329,8 +329,9 @@ bot.on("message", function(message) {
 						songList += `\`${i + 1}. ${serverQueue.songs[i].title}\`\n`;
 					}
 				}
+				var icon = message.guild.iconURL;
 				var queueembed = new Discord.RichEmbed()
-				.setAuthor(message.guild.icon, "The song queue of " + message.guild.name + " currently has:")
+				.setAuthor(icon, "The song queue of " + message.guild.name + " currently has:")
 				.setDescription(`${songList}`)
 				.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 				message.channel.send({embed: queueembed});
