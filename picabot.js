@@ -316,13 +316,13 @@ bot.on("message", function(message) {
 				return;
 		}
 			if (serverQueue.songs.length > 0) {
-				var queueembed = new Discord.RichEmbed()
+				var songembed = new Discord.RichEmbed()
 				.setColor(0xFF007F)
 				.setAuthor(`The current song is \`${serverQueue.songs[currentSongIndex].title}\` 🎧`)
 				.setDescription("link here: " + `[click](${serverQueue.songs[currentSongIndex].url})`)
 				.setFooter(`Added by ${serverQueue.songs[currentSongIndex].username}`, serverQueue.songs[currentSongIndex].usravatar)
 				.setTimestamp()
-				message.channel.send(`The current song is \`${serverQueue.songs[currentSongIndex].title}\` :musical_note:, added by ${serverQueue.songs[currentSongIndex].user}`, { reply: message });
+				message.channel.send({embed: songembed});
 			} else {
 				message.channel.send("No song is in the queue", { reply: message });
 			}
