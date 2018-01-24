@@ -330,7 +330,7 @@ bot.on("message", function(message) {
 					}
 				}
 				var queueembed = new Discord.RichEmbed()
-				.setAuthor("The song queue currently has:" + message.server.name)
+				.setAuthor("The song queue currently has:" + message.guild.name)
 				.setDescription(`${songList}`)
 				.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 				message.channel.send({embed: queueembed});
