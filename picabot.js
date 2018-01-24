@@ -391,7 +391,7 @@ var addSong = function(message, url) {
 	const serverQueue = songQueue.get(message.guild.id);
 	ytdl.getInfo(url).then(function(info) {
 		var song = {};
-		song.duration = contentDetails.duration;
+		song.duration = info.duration;
 		song.thumbnail = info.thumbnail_url;
 		song.title = info.title;
 		song.url = url;
