@@ -391,6 +391,7 @@ var addSong = function(message, url) {
 	const serverQueue = songQueue.get(message.guild.id);
 	ytdl.getInfo(url).then(function(info) {
 		var song = {};
+		song.length = info.length;
 		song.thumbnail = info.thumbnail_url;
 		song.title = info.title;
 		song.url = url;
@@ -422,6 +423,7 @@ var addSong = function(message, url) {
 			.setAuthor(`I have added \`${info.title}\` to the song queue!`, "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 			.setDescription("link here: " + `[click](${url})`)
 			.setURL(`${url}`)
+			.setField(song.length)
 			.setThumbnail(`${song.thumbnail}`)
 			.setFooter("Added by: " + message.author.username.toString(), message.author.avatarURL)
 			.setTimestamp();
@@ -525,4 +527,3 @@ var checkForCommand = function(message) {
 function newFunction() {
 	return queue.message.guild.id;
 }
-
