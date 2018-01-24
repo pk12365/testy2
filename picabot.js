@@ -330,8 +330,9 @@ bot.on("message", function(message) {
 					}
 				}
 				var queueembed = new Discord.RichEmbed()
-				.setAuthor("The song queue currently has:")
+				.setAuthor("The song queue currently has:" + message.server.name)
 				.setDescription(`${songList}`)
+				.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 				message.channel.send({embed: queueembed});
 			} else {
 				message.channel.send("No song is in the queue", { reply: message });
