@@ -320,8 +320,9 @@ bot.on("message", function(message) {
 				.setColor(0xFF007F)
 				.setAuthor(`The current song is \`${serverQueue.songs[currentSongIndex].title}\` 🎧`)
 				.setDescription("link here: " + `[click](${serverQueue.songs[currentSongIndex].url})`)
-				.setFooter(`Added by ${serverQueue.songs[currentSongIndex].username}`, serverQueue.songs[currentSongIndex].usravatar)
-				.setTimestamp()
+				.setThumbnail(`${serverQueue.song[currentSongIndex].thumbnail}`)
+				.setFooter(`Added by ${serverQueue.songs[currentSongIndex].user}`, serverQueue.songs[currentSongIndex].usravatar)
+				.setTimestamp();
 				message.channel.send({embed: songembed});
 			} else {
 				message.channel.send("No song is in the queue", { reply: message });
@@ -348,7 +349,7 @@ bot.on("message", function(message) {
 				.setAuthor("The song queue of " + message.guild.name + " currently has:", icon.toString())
 				.setDescription(`${songList}`)
 				.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
-				.setTimestamp()
+				.setTimestamp();
 				message.channel.send({embed: queueembed});
 			} else {
 				message.channel.send("No song is in the queue", { reply: message });
