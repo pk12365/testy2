@@ -190,7 +190,7 @@ bot.on("message", function(message) {
 						var finishembed = new Discord.RichEmbed()
 						.setColor(0x00FFFF)
 						.setAuthor("Finished playing because no more song in the queue", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
-						.setDescription("please add more song if you like", ":headphones:")
+						.setDescription("please add more song if you like 🎧")
 						.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 						.setTimestamp();
 						message.channel.send({embed: finishembed});
@@ -262,6 +262,12 @@ bot.on("message", function(message) {
 					currentSongIndex = 0;
 					serverQueue.songs = [];
 					message.member.voiceChannel.leave();
+					var finishembed = new Discord.RichEmbed()
+						.setColor(0x008000)
+						.setAuthor("Finished playing because no more song in the queue", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
+						.setDescription("thanks for using see you soon bye bye 👋")
+						.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
+						.setTimestamp();
 					message.channel.send("Clearing queue and stopping music!");
 				}
 				/*else if(args.length > 0){
@@ -336,6 +342,7 @@ bot.on("message", function(message) {
 				.setAuthor("The song queue of " + message.guild.name + " currently has:", icon.toString())
 				.setDescription(`${songList}`)
 				.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
+				.setTimestamp()
 				message.channel.send({embed: queueembed});
 			} else {
 				message.channel.send("No song is in the queue", { reply: message });
@@ -478,8 +485,8 @@ var playSong = function(message, connection) {
 						var finishembed = new Discord.RichEmbed()
 						.setColor(0x008000)
 						.setAuthor("Finished playing because no more song in the queue", "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
-						.setDescription("please add more song if you like", ":headphones:")
-						.setFooter("Developed by: PK#1650 ", "https://media.discordapp.net/attachments/399064303170224131/405327147599659008/IMG_20180123_170856.jpg")
+						.setDescription("please add more song if you like 🎧")
+						.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 						.setTimestamp();
 						message.channel.send({embed: finishembed});
 					} else {
