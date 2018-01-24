@@ -170,7 +170,7 @@ bot.on("message", function(message) {
 					var finishembed = new Discord.RichEmbed()
 					.setAuthor("Finished playing because no more song in the queue")
 					.setDescription("please add more song if you like", ":headphones:")
-					.setFooter("Developed by: PK#1650 ", "https://media.discordapp.net/attachments/399064303170224131/405327147599659008/IMG_20180123_170856.jpg")
+					.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 					.setTimestamp();
 					message.channel.send({embed: finishembed});
 				}
