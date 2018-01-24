@@ -328,7 +328,8 @@ bot.on("message", function(message) {
 var addSong = function(message, url) {
 	const serverQueue = songQueue.get(message.guild.id);
 	ytdl.getInfo(url).then(function(info) {
-		var song = {};
+        var song = {};
+        song.thumbnail = info.thumbnail_url;
 		song.title = info.title;
 		song.url = url;
 		song.user = message.author.username;
@@ -359,7 +360,7 @@ var addSong = function(message, url) {
 			.setAuthor(`I have added \`${info.title}\` to the song queue!`, "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 			.setDescription("link here: " + `[click](${url})`)
 			.setURL(`${url}`)
-			.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
+			.setThumbnail(`${thumbnail}`)
 			.setFooter("Added by: " + message.author.username.toString(), message.author.avatarURL)
 			.setTimestamp();
 			message.channel.send({embed: addsongembed});
