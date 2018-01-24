@@ -398,7 +398,7 @@ var playSong = function(message, connection) {
 		.setAuthor(`Now ${(shuffle) ? "randomly " : ""}playing \`${currentSong.title}\``, "https://cdn.discordapp.com/attachments/398789265900830760/405592021579989003/videotogif_2018.01.24_10.46.57.gif")
 		.setDescription("link here: " + `[click](${currentSong.url})`)
 		.setURL(`${currentSong.url}`)
-		.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
+		.setThumbnail(`${currentSong.thumbnail}`)
 		.setFooter("Requested by: " + `${currentSong.user}`, currentSong.usravatar)
 		.setTimestamp();
 		message.channel.send({embed: nowplayembed});
