@@ -85,7 +85,7 @@ bot.on("message", function(message) {
 	    let disembed = new Discord.RichEmbed()
 	    .setTitle("ICW Discrim Finder")
 	    .setDescription("Here are the discriminators I found!")
-	    .addField("Members:", `${members} , #${discrim}`)
+	    .addField("Members:", `${members}#${discrim}`)
 	    .setColor('#008000');
 	    message.channel.send({embed: disembed});
     }
