@@ -75,28 +75,13 @@ bot.on("message", function(message) {
 	}
 
 	if (command === "discrim") {
-		if (message.channel.type === 'dm') { message.channel.sendMessage("Can't do this in a PM!", (erro, wMessage) => { wMessage.delete({"wait": 10000}); }); return; }
-		if (!message.channel.permissionsFor(message.author).hasPermission("manageServer")) { message.channel.sendMessage("⚠ Access Denied `Permission Required - manageServer`", (erro, wMessage) => { wMessage.delete({"wait": 10000}); }); return; }
-		else {
-		if (suffix.length != 4) suffix = message.author.discriminator;
-			if (!/^\d+$/.test(suffix)) suffix = msg.author.discriminator;
-			var usersCache = [];
-			kyu.users.forEach(user => {
-					if (user.discriminator === suffix) usersCache.push(user);
-			});
-			if (usersCache.length < 1) var messageString = "```markdown\n### No Users Found: (" + suffix + ") ###";
-			else {
-					var messageString = "```markdown\n### Found These User(s): (" + suffix + ") ###";
-					for (i = 0; i < usersCache.length; i++) {
-							if (i === 10) {
-									msgString += "\nAnd " + (usersCache.length - i) + " more users...";
-									break;
-							}
-							msgString += "\n[" + (i + 1) + "]: " + usersCache[i].username;
-					}
-			}
-			message.channel.sendMessage(messageString + "```");
-		}
+		const discrim = args.length == 1 ? parseInt(args[0]) : message.author.discriminator;
+                const users = bot.client.users.filter.users.filter(user => user.discriminator == discrim).map(user => user.tag);
+                if (users.length == 0 || isNaN(discrim)) {
+                    await message.channel.send(`:x: No results.`);
+                } else {
+                    await message.channel.send('```\n'+users.join("\n")+'\n```');
+                }
 	}
 //info
 	if (command === "invite") {
