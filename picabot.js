@@ -33,6 +33,7 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
 	bot.user.setGame("$help");
+	message.botlogchannel.send("bot login");
 }).catch(console.log);
 //bot.login(config.token);
 
