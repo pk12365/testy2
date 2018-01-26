@@ -65,6 +65,13 @@ bot.on("message", function(message) {
 		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
     }
 
+//until
+    if (command === "say") {
+        const saycmd = args.join(" ");
+		message.delete();
+		message.channel.send(saycmd);
+    }
+//info
     if (command === "uptime") {
         var days = Math.floor(bot.uptime / 86400000000000);
 		var hours = Math.floor(bot.uptime / 3600000);
