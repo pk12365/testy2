@@ -34,7 +34,7 @@ bot.login(process.env.BOTTOKEN).then(function() {
 	bot.user.setGame("$help");
 	bot.sendMessage({
 		to: botlogchannel,
-		message: message,
+		message: "bot logged in",
 	});
 }).catch(console.log);
 //bot.login(config.token);
