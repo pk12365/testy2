@@ -1,4 +1,5 @@
 require("dotenv").config();
+const Discord = require("discord.js");
 const ytdl = require("ytdl-core");
 const fs = require("fs");
 const google = require("googleapis");
