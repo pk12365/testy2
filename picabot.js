@@ -16,7 +16,7 @@ var currentSongIndex = 0;
 var previousSongIndex = 0;
 var shuffle = false;
 var autoremove = false;
-var Cleverbot = require('cleverbot-node');
+var Cleverbot = require("cleverbot-node");
 const clbot = new Cleverbot();
 clbot.configure({botapi: (prosess.env.CLEVERBOT_KEY)});
 
