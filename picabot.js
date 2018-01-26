@@ -19,7 +19,6 @@ var autoremove = false;
 
 bot.on("ready", function() {
 	console.log("Bot ready");
-	botlogchannel.send("Bot ready");
 });
 bot.on("disconnect", function() {
 	console.log("Bot disconnected");
@@ -33,7 +32,10 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
 	bot.user.setGame("$help");
-	botlogchannel.send("bot login");
+	bot.sendMessage({
+		to: botlogchannel,
+		message: message,
+	});
 }).catch(console.log);
 //bot.login(config.token);
 
