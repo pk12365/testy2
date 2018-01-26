@@ -33,7 +33,7 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
-	bot.user.setGame("$help");
+	bot.user.setActivity(`$help | ${bot.users.size}`, {url:"https://www.twitch.tv/pardeepsingh12365", type: "STREAMING"});
 	bot.channels.get(botlogchannel).send("bot logged in");
 }).catch(console.log);
 //bot.login(config.token);
@@ -492,7 +492,7 @@ var addSong = function(message, url) {
 		if (!bot.voiceConnections.exists("channel", message.member.voiceChannel)) {
 			message.member.voiceChannel.join().then(function(connection) {
 				playSong(message, connection);
-			}).catch(console.log, bot.channels.get(botlogchannel).send());
+			}).catch(console.log);
 		}
 	}).catch(function(err) {
 		message.channel.send(err + "\n\n\n");
