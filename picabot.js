@@ -75,9 +75,9 @@ bot.on("message", function(message) {
 	}
 
 	if (command === "discrim") {
-		const discrim = msg.content.split(' ')[1];
-		if (!discrim) return msg.reply("Whoops! I could not find the discriminator that you had given.");
-		if (discrim.size > 4) return msg.reply("Don't you know that discrims are 4 numbers? -.-");
+		const discrim = message.content.split(' ')[1];
+		if (!discrim) return message.reply("Whoops! I could not find the discriminator that you had given.");
+		if (discrim.size > 4) return message.reply("Don't you know that discrims are 4 numbers? -.-");
 		  let members = client.users.filter(c=>c.discriminator===discrim).map(c=>c.username).join('\n');
 		  if (!members) return msg.reply("404 | No members have that discriminator!");
 		let embed = new Discord.RichEmbed()
@@ -85,7 +85,7 @@ bot.on("message", function(message) {
 		  .setDescription("Here are the discriminators I found!")
 		  .addField("Members:", members)
 		  .setColor('#008000');
-		   msg.channel.send({embed: embed});
+		   message.channel.send({embed: embed});
 	 }
 //info
 	if (command === "invite") {
