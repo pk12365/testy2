@@ -76,14 +76,14 @@ bot.on("message", function(message) {
 
     if (command === "discrim") {
 	    const discrim = message.content.split(' ')[1]
-	    if (!discrim) return message.reply("Whoops! I could not find the discriminator that you had given.")
+	    if (!discrim) return message.reply("oops! I could not find the discriminator that you had given.")
 	    if (typeof discrim !== 'integer')
 		    if (discrim.size < 4) return message.reply("Don't you know that discrims are 4 numbers? -.-")
 	    if (discrim.size > 4) return message.reply("Don't you know that discrims are 4 numbers? -.-")
 	    let members = bot.users.filter(c=>c.discriminator===discrim).map(c=>c.username).join('\n')
 	    if (!members) return message.reply("404 | No members have that discriminator!")
 	    let disembed = new Discord.RichEmbed()
-	    .setTitle("Galaxy Discrim Finder")
+	    .setTitle("ICW Discrim Finder")
 	    .setDescription("Here are the discriminators I found!")
 	    .addField("Members:", members)
 	    .setColor('#008000');
