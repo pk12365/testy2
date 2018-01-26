@@ -29,12 +29,12 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 	checkForCommand(newMessage);
 });
 
-bot.user.Presence.game({game : {name : `${prefix}help | ${bot.guilds.size} servers`, url:"https://www.twitch.tv/ka", type:1}});
-
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
+	bot.user.setGame({game : {name : `${prefix}help | ${bot.guilds.size} servers`, url:"https://www.twitch.tv/ka", type:1}});
 }).catch(console.log);
 //bot.login(config.token);
+
 
 fs.readFile("save.json", function(err, data) {
 	if (err) {
