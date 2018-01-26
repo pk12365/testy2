@@ -74,15 +74,22 @@ bot.on("message", function(message) {
 		message.channel.send(saycmd);
 	}
 
-	if (command === "discrim") {
-		const discrim = args.length == 1 ? parseInt(args[0]) : message.author.discriminator;
-                const users = bot.client.users.filter(user => user.discriminator == discrim).map(user => user.tag);
-                if (users.length == 0 || isNaN(discrim)) {
-			message.channel.send(`:x: No results.`);
-                } else {
-			message.channel.send('```\n'+users.join("\n")+'\n```');
-                }
-	}
+    if (command === "discrim") {
+	    const discrim = message.content.split(' ')[1]
+	    if (!discrim) return message.reply("Whoops! I could not find the discriminator that you had given.")
+	    if (typeof discrim !== 'integer')
+		    if (discrim.size < 4) return message.reply("Don't you know that discrims are 4 numbers? -.-")
+	    if (discrim.size > 4) return message.reply("Don't you know that discrims are 4 numbers? -.-")
+	    let members = bot.users.filter(c=>c.discriminator===discrim).map(c=>c.username).join('\n')
+	    if (!members) return message.reply("404 | No members have that discriminator!")
+	    let disembed = new Discord.RichEmbed()
+	    .setTitle("Galaxy Discrim Finder")
+	    .setDescription("Here are the discriminators I found!")
+	    .addField("Members:", members)
+	    .setColor('#008000');
+	    message.channel.send({disembed: embed});
+    }
+
 //info
 	if (command === "invite") {
 		message.author.send("Invite URL: https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot");
