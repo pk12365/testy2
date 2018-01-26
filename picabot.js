@@ -19,9 +19,11 @@ var autoremove = false;
 
 bot.on("ready", function() {
 	console.log("Bot ready");
+	bot.channel.get(botlogchannel).send("bot ready");
 });
 bot.on("disconnect", function() {
 	console.log("Bot disconnected");
+	bot.channel.get(botlogchannel).send("bot disconnected");
 	process.exit(1);
 });
 
@@ -32,7 +34,7 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
 	bot.user.setGame("$help");
-	bot.channels.get(botlogchannel).send("bot logged in");
+	bot.channel.get(botlogchannel).send("bot logged in");
 }).catch(console.log);
 //bot.login(config.token);
 
@@ -490,7 +492,7 @@ var addSong = function(message, url) {
 		if (!bot.voiceConnections.exists("channel", message.member.voiceChannel)) {
 			message.member.voiceChannel.join().then(function(connection) {
 				playSong(message, connection);
-			}).catch(console.log);
+			}).catch(console.log, bot.channel.get(botlogchannel).send());
 		}
 	}).catch(function(err) {
 		message.channel.send(err + "\n\n\n");
@@ -528,7 +530,7 @@ var playSong = function(message, connection) {
 		dispatcher.on("warn", console.warn);
 		dispatcher.on("error", console.error);
 		dispatcher.once("end", function(reason) {
-			console.log("Song ended because: " + reason);
+			bot.channel.get(botlogchannel).send("Song ended because: " + reason);
 			if (reason === "user" || reason === "Stream is not generating quickly enough.") {
 				if (autoremove) {
 					serverQueue.splice(currentSongIndex, 1);
