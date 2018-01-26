@@ -71,7 +71,7 @@ bot.on("message", function(message) {
     if (command === "say") {
         var args1 = message.content.split(/[ ]+/);
 		message.delete();
-		message.channel.send(args1.join("").substring(5));
+		message.channel.send(args1.join("").substring(4));
     }
 
     if (command === "discrim") {
