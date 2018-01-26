@@ -29,6 +29,8 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 	checkForCommand(newMessage);
 });
 
+bot.user.setGame(`Type ${prefix}help for help | ${bot.guilds.size} guilds`);
+
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
 }).catch(console.log);
@@ -72,6 +74,22 @@ bot.on("message", function(message) {
 		message.channel.send(saycmd);
     }
 //info
+	if (command === "invite") {
+		message.author.send("Invite URL: https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot");
+	}
+
+	if (command === "info") {
+		var infoembed = new Discord.RichEmbed()
+		.setAuthor("Hi " + message.author.username.toString(), message.author.avatarURL)
+		.setTitle("info")
+		.setColor()
+		.setDescription(`this bot for music and fun \nDevloped by PK#1650 \nTry with ${prefix}help \nsupport server: (link)[https://discord.gg/zFDvBay] \nbot invite link: (invite)[https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot]`)
+		.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
+		.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
+		.setTimestamp();
+		message.channel.send();
+	}
+
     if (command === "uptime") {
         var days = Math.floor(bot.uptime / 86400000000000);
 		var hours = Math.floor(bot.uptime / 3600000);
