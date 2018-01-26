@@ -8,7 +8,7 @@ const youtube = google.youtube("v3");
 const bot = new Discord.Client();
 const prefix = "$";
 const botChannelName = "icwbot2";
-var botChannel;
+const botlogchannel = "406504806954565644";
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
 var dispatcher;
 const songQueue = new Map();
@@ -19,6 +19,7 @@ var autoremove = false;
 
 bot.on("ready", function() {
 	console.log("Bot ready");
+	message.botlogchannel.send("Bot ready");
 });
 bot.on("disconnect", function() {
 	console.log("Bot disconnected");
@@ -66,8 +67,9 @@ bot.on("message", function(message) {
 	if (command === "help") {
 		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
     }
-
-//until
+/*----------------------------------------------------------------------------------------------------------------
+until commands
+------------------------------------------------------------------------------------------------------------------*/
     if (command === "say") {
         var args1 = message.content.split(/[ ]+/);
 		message.delete();
@@ -75,13 +77,13 @@ bot.on("message", function(message) {
     }
 
     if (command === "discrim") {
-	    const discrim = message.content.split(' ')[1]
-	    if (!discrim) return message.reply("oops! I could not find the discriminator that you had given.")
+	    const discrim = message.content.split(' ')[1];
+	    if (!discrim) return message.reply("oops! I could not find the discriminator that you had given.");
 	    if (typeof discrim !== 'integer')
-		    if (discrim.size < 4) return message.reply("Don't you know that discrims are 4 numbers? -.-")
-	    if (discrim.size > 4) return message.reply("Don't you know that discrims are 4 numbers? -.-")
-	    let members = bot.users.filter(c=>c.discriminator===discrim).map(c=>c.username).join('\n')
-	    if (!members) return message.reply("404 | No members have that discriminator!")
+		    if (discrim.size < 4) return message.reply("Don't you know that discrims are 4 numbers? -.-");
+	    if (discrim.size > 4) return message.reply("Don't you know that discrims are 4 numbers? -.-");
+	    let members = bot.users.filter(c=>c.discriminator===discrim).map(c=>c.username).join('\n');
+	    if (!members) return message.reply("404 | No members have that discriminator!");
 	    let disembed = new Discord.RichEmbed()
 	    .setTitle("ICW Discrim Finder")
 	    .setDescription("Here are the discriminators I found!")
@@ -89,8 +91,9 @@ bot.on("message", function(message) {
 	    .setColor('#008000');
 	    message.channel.send({embed: disembed});
     }
-
-//info
+/*---------------------------------------------------------------------------------------------------------------------
+info commands
+----------------------------------------------------------------------------------------------------------------------*/
 	if (command === "invite") {
 		message.author.send("Invite URL: https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot");
 	}
@@ -100,7 +103,7 @@ bot.on("message", function(message) {
 		.setAuthor("Hi " + message.author.username.toString(), message.author.avatarURL)
 		.setTitle("info")
 		.setColor()
-		.setDescription(`this bot for music and fun \nDevloped by PK#1650 \nTry with ${prefix}help \nsupport server: [link](https://discord.gg/zFDvBay) \nbot invite link: [invite](https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot)`)
+		.setDescription(`this bot for music and fun \nDevloped by PK#1650 \nTry with ${prefix}help \nsupport server:\n[link](https://discord.gg/zFDvBay) \nbot invite link:\n[invite](https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot)`)
 		.setThumbnail("https://images-ext-1.discordapp.net/external/v1EV83IWPZ5tg7b5NJwfZO_drseYr7lSlVjCJ_-PncM/https/cdn.discordapp.com/icons/268683615632621568/168a880bdbc1cb0b0858f969b2247aa3.jpg?width=80&height=80")
 		.setFooter("Developed by: PK#1650 ", "https://cdn.discordapp.com/attachments/399064303170224131/405585474988802058/videotogif_2018.01.24_10.14.40.gif")
 		.setTimestamp();
@@ -117,8 +120,9 @@ bot.on("message", function(message) {
 		.addField('Uptime', `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
 		message.channel.send({embed: uptimeembed});
     }
-
-//music commands
+/*------------------------------------------------------------------------------------------
+music commands
+-------------------------------------------------------------------------------------------*/
 	if (command === "play") {
 		if (message.member.voiceChannel !== undefined) {
 			if (args.length > 0) {
