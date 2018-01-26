@@ -1,5 +1,4 @@
 require("dotenv").config();
-const Discord = require("discord.js");
 const ytdl = require("ytdl-core");
 const fs = require("fs");
 const google = require("googleapis");
@@ -16,9 +15,6 @@ var currentSongIndex = 0;
 var previousSongIndex = 0;
 var shuffle = false;
 var autoremove = false;
-var Cleverbot = require("cleverbot-node");
-const clbot = new Cleverbot();
-clbot.configure({botapi: (prosess.env.CLEVERBOT_KEY)});
 
 bot.on("ready", function() {
 	console.log("Bot ready");
@@ -55,17 +51,6 @@ fs.readFile("save.json", function(err, data) {
 		}
 	}
 });
-bot.on("message", message => {
-	if (message.channel.type === "dm") {
-	  clbot.write(message.content, (response) => {
-		message.channel.startTyping();
-		setTimeout(() => {
-		  message.channel.send(response.output).catch(console.error);
-		  message.channel.stopTyping();
-		}, Math.random() * (1 - 3) + 1 * 1000);
-	  });
-	}
-  });
 
 bot.on("message", function(message) {
 	const serverQueue = songQueue.get(message.guild.id);
