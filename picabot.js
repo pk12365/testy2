@@ -31,7 +31,7 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
-	bot.user.setGame(`${prefix}help | ${bot.guilds.size} servers`);
+	bot.user.setGame("$help");
 }).catch(console.log);
 //bot.login(config.token);
 
