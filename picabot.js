@@ -16,6 +16,9 @@ var currentSongIndex = 0;
 var previousSongIndex = 0;
 var shuffle = false;
 var autoremove = false;
+var Cleverbot = require('cleverbot-node');
+const clbot = new Cleverbot();
+clbot.configure({botapi: (prosess.env.CLEVERBOT_KEY)});
 
 bot.on("ready", function() {
 	console.log("Bot ready");
@@ -52,6 +55,17 @@ fs.readFile("save.json", function(err, data) {
 		}
 	}
 });
+bot.on("message", message => {
+	if (message.channel.type === "dm") {
+	  clbot.write(message.content, (response) => {
+		message.channel.startTyping();
+		setTimeout(() => {
+		  message.channel.send(response.output).catch(console.error);
+		  message.channel.stopTyping();
+		}, Math.random() * (1 - 3) + 1 * 1000);
+	  });
+	}
+  });
 
 bot.on("message", function(message) {
 	const serverQueue = songQueue.get(message.guild.id);
@@ -70,7 +84,7 @@ bot.on("message", function(message) {
 		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
     }
 /*----------------------------------------------------------------------------------------------------------------
-until commands
+                                            until commands
 ------------------------------------------------------------------------------------------------------------------*/
     if (command === "say") {
         var args1 = message.content.split(/[ ]+/);
