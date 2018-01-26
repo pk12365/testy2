@@ -69,10 +69,10 @@ bot.on("message", function(message) {
 
 //until
     if (command === "say") {
-        const saycmd = args.join(" ");
+        var args = message.content.split(/[ ]+/);
 		message.delete();
-		message.channel.send(saycmd);
-	}
+		message.channel.send(args.join("").substring(5));
+    }
 
     if (command === "discrim") {
 	    const discrim = message.content.split(' ')[1]
