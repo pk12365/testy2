@@ -75,7 +75,7 @@ bot.on("message", function(message) {
 	}
 
     if (command === "discrim") {
-	    const discrim = message.content.split(' ')[1]
+	    const discrim = message.content.split(' ')[20]
 	    if (!discrim) return message.reply("oops! I could not find the discriminator that you had given.")
 	    if (typeof discrim !== 'integer')
 		    if (discrim.size < 4) return message.reply("Don't you know that discrims are 4 numbers? -.-")
@@ -85,7 +85,7 @@ bot.on("message", function(message) {
 	    let disembed = new Discord.RichEmbed()
 	    .setTitle("ICW Discrim Finder")
 	    .setDescription("Here are the discriminators I found!")
-	    .addField("Members:", members)
+	    .addField("Members:", members , members.discriminator)
 	    .setColor('#008000');
 	    message.channel.send({embed: disembed});
     }
