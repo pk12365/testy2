@@ -32,7 +32,7 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
 	bot.user.setGame("$help");
-	bot.channel.get(botlogchannel).send("bot logged in");
+	bot.channels.get(botlogchannel).send("bot logged in");
 }).catch(console.log);
 //bot.login(config.token);
 
