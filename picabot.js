@@ -75,18 +75,29 @@ bot.on("message", function(message) {
 	}
 
 	if (command === "discrim") {
-		const discrim = message.content.split(' ')[1];
-		if (!discrim) return message.reply("Whoops! I could not find the discriminator that you had given.");
-		if (discrim.size > 4) return message.reply("Don't you know that discrims are 4 numbers? -.-");
-		const users = this.client.users.filter(user => user.discriminator === discrim).map(user => user.tag);
-		  if (!members) return msg.reply("404 | No members have that discriminator!");
-		let embed = new Discord.RichEmbed()
-		  .setTitle("ICW Discrim Finder")
-		  .setDescription("Here are the discriminators I found!")
-		  .addField("Members:", users)
-		  .setColor('#008000');
-		   message.channel.send({embed: embed});
-	 }
+		if (message.channel.type === 'dm') { message.channel.sendMessage("Can't do this in a PM!", (erro, wMessage) => { wMessage.delete({"wait": 10000}); }); return; }
+		if (!message.channel.permissionsFor(message.author).hasPermission("manageServer")) { message.channel.sendMessage("⚠ Access Denied `Permission Required - manageServer`", (erro, wMessage) => { wMessage.delete({"wait": 10000}); }); return; }
+		else {
+		if (suffix.length != 4) suffix = message.author.discriminator;
+			if (!/^\d+$/.test(suffix)) suffix = msg.author.discriminator;
+			var usersCache = [];
+			kyu.users.forEach(user => {
+					if (user.discriminator === suffix) usersCache.push(user);
+			});
+			if (usersCache.length < 1) var messageString = "```markdown\n### No Users Found: (" + suffix + ") ###";
+			else {
+					var messageString = "```markdown\n### Found These User(s): (" + suffix + ") ###";
+					for (i = 0; i < usersCache.length; i++) {
+							if (i === 10) {
+									msgString += "\nAnd " + (usersCache.length - i) + " more users...";
+									break;
+							}
+							msgString += "\n[" + (i + 1) + "]: " + usersCache[i].username;
+					}
+			}
+			message.channel.sendMessage(messageString + "```");
+		}
+	}
 //info
 	if (command === "invite") {
 		message.author.send("Invite URL: https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot");
