@@ -29,7 +29,7 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 	checkForCommand(newMessage);
 });
 
-bot.user.setGame(`Type ${prefix}help for help | ${bot.guilds.size} guilds`);
+bot.user.setPresence({game : {name : `${prefix}help | ${bot.guilds.size} servers`, url:"https://www.twitch.tv/ka", type:1}});
 
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
