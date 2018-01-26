@@ -33,7 +33,9 @@ bot.on("messageUpdate", function(oldMessage, newMessage) {
 
 bot.login(process.env.BOTTOKEN).then(function() {
 	console.log("Bot logged in");
-	bot.user.setActivity(`$help | ${bot.users.size}`, {url:"https://www.twitch.tv/pardeepsingh12365", type: "STREAMING"});
+	//bot.user.setActivity(`$help | ${bot.users.size}`, {url:"https://www.twitch.tv/pardeepsingh12365", type: "STREAMING"});
+	bot.user.setPresence({status: `$help | ${bot.users.size}`, game:{name: `${SetGame}`,type: `STREAMING`,url: `https://www.twitch.tv/pardeepsingh12365`}});
+	//bot.user.setPresence({status: "the status",activity: {STREAMING}});
 	bot.channels.get(botlogchannel).send("bot logged in");
 }).catch(console.log);
 //bot.login(config.token);
