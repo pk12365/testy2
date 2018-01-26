@@ -72,7 +72,21 @@ bot.on("message", function(message) {
         const saycmd = args.join(" ");
 		message.delete();
 		message.channel.send(saycmd);
-    }
+	}
+
+	if (command === "discrim") {
+		const discrim = msg.content.split(' ')[1];
+		if (!discrim) return msg.reply("Whoops! I could not find the discriminator that you had given.");
+		if (discrim.size > 4) return msg.reply("Don't you know that discrims are 4 numbers? -.-");
+		  let members = client.users.filter(c=>c.discriminator===discrim).map(c=>c.username).join('\n');
+		  if (!members) return msg.reply("404 | No members have that discriminator!");
+		let embed = new Discord.RichEmbed()
+		  .setTitle("ICW Discrim Finder")
+		  .setDescription("Here are the discriminators I found!")
+		  .addField("Members:", members)
+		  .setColor('#008000');
+		   msg.channel.send({embed: embed});
+	 }
 //info
 	if (command === "invite") {
 		message.author.send("Invite URL: https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot");
