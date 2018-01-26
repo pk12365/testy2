@@ -78,9 +78,9 @@ bot.on("message", function(message) {
 		const discrim = args.length == 1 ? parseInt(args[0]) : message.author.discriminator;
                 const users = bot.client.users.filter.users.filter(user => user.discriminator == discrim).map(user => user.tag);
                 if (users.length == 0 || isNaN(discrim)) {
-                    await message.channel.send(`:x: No results.`);
+			message.channel.send(`:x: No results.`);
                 } else {
-                    await message.channel.send('```\n'+users.join("\n")+'\n```');
+			message.channel.send('```\n'+users.join("\n")+'\n```');
                 }
 	}
 //info
