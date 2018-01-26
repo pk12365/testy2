@@ -87,7 +87,7 @@ bot.on("message", function(message) {
 	    .setDescription("Here are the discriminators I found!")
 	    .addField("Members:", members)
 	    .setColor('#008000');
-	    message.channel.send({disembed: embed});
+	    message.channel.send({embed: disembed});
     }
 
 //info
