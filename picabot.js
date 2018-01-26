@@ -6,7 +6,7 @@ const google = require("googleapis");
 const youtube = google.youtube("v3");
 //var config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
 const bot = new Discord.Client();
-const prefix = ".";
+const prefix = "$";
 const botChannelName = "icwbot2";
 var botChannel;
 var fortunes = ["It is certain", "It is decidedly so", "Without a doubt", "Yes definitely", "You may rely of it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Dont count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"];
@@ -63,8 +63,20 @@ bot.on("message", function(message) {
 
 	if (command === "help") {
 		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
-	}
+    }
 
+    if (command === "uptime") {
+        var days = Math.floor(bot.uptime / 86400000000000);
+		var hours = Math.floor(bot.uptime / 3600000);
+		var minutes = Math.floor((bot.uptime % 3600000) / 60000);
+		var seconds = Math.floor(((bot.uptime % 360000) % 60000) / 1000);
+		const uptimeembed = new Discord.RichEmbed()
+		.setColor([0, 38, 255])
+		.addField('Uptime', `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+		message.channel.send({embed: uptimeembed});
+    }
+
+//music commands
 	if (command === "play") {
 		if (message.member.voiceChannel !== undefined) {
 			if (args.length > 0) {
@@ -367,13 +379,9 @@ bot.on("message", function(message) {
 						return;
 					}
 						if (isNaN(args[1])) {
-							message.channel.send('Error: ./set-volume expecting a number. Incorrect args');
+							message.channel.send(`please provide a valid input. example \`${prefix}volume 100\``, { reply: message });
 							return;
 						}
-						//if (typeof(args[1]) !== "number") {
-							//message.channel.send(`please provide a valid input. example \`${prefix}volume 100\``, { reply: message });
-							//return;
-						  //}
 				serverQueue.volume[message.guild.id] = args[1];
 				dispatcher.setVolumeLogarithmic(args[1] / 80);
 				var setvolembed = new Discord.RichEmbed()
