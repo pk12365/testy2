@@ -100,7 +100,7 @@ bot.on("message", function(message) {
     info commands
     ----------------------------------------------------------------------------------------------------------------------*/
     if (command === "invite") {
-        message.chennal.send("Invite URL: https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot");
+        message.author.send("Invite URL: https://discordapp.com/oauth2/authorize?client_id=376292306233458688&scope=bot");
     }
 
     if (command === "info") {
