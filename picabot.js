@@ -54,13 +54,14 @@ fs.readFile("save.json", function(err, data) {
 });
 
 bot.on("message", function(message) {
-    const serverQueue = songQueue.get(message.guild.id);
 
 	if (message.author.bot) return undefined;
 
 	if (message.channel.type == "dm" || message.channel.type == "group") return undefined;
 
-    if (!message.content.startsWith(prefix)) return undefined;
+	if (!message.content.startsWith(prefix)) return undefined;
+
+	const serverQueue = songQueue.get(message.guild.id);
 
     const args = message.content.substring(1).split(' ');
     //Get command from message
