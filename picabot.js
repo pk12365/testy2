@@ -54,8 +54,6 @@ fs.readFile("save.json", function(err, data) {
 });
 
 bot.on("message", function(message) {
-	if (!(message.channel instanceof Textchannel)) return undefined;
-	const serverQueue = songQueue.get(message.guild.id);
 
 	if (message.author.bot) return undefined;
 
@@ -69,7 +67,23 @@ bot.on("message", function(message) {
 
 	if (command === "help") {
 		message.author.send("```Music commands are: \n   play     (add your music in the queue) \n   pause    (pause the player) \n   resume   (resume your player) \n   skip     (for next song) \n   prev     (for previous song) \n   stop     (stop & clear your player) \n   queue    (check queue list) \n   song     (view now playing) \n   random   (playing random song) ```", {reply: message});
-    }
+	}
+});
+
+bot.on("message", function(message) {
+	if (!(message.channel instanceof Textchannel)) return undefined;
+	const serverQueue = songQueue.get(message.guild.id);
+
+	if (message.author.bot) return undefined;
+
+	if (!message.content.startsWith(prefix)) return undefined;
+
+	const args = message.content.substring(1).split(' ');
+	//Get command from message
+	let command = message.content.toLowerCase().split(" ")[0];
+	//Remove prefix from command string
+	command = command.slice(prefix.length);
+
 /*----------------------------------------------------------------------------------------------------------------
                                             until commands
 ------------------------------------------------------------------------------------------------------------------*/
