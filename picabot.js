@@ -1,5 +1,5 @@
 require("dotenv").config();
-const Discord = require("discord.js");
+const {Discord, TextChannel} = require("discord.js");
 const ytdl = require("ytdl-core");
 const fs = require("fs");
 const google = require("googleapis");
@@ -54,6 +54,7 @@ fs.readFile("save.json", function(err, data) {
 });
 
 bot.on("message", function(message) {
+	if (!(message.channel instanceof Textchannel)) return undefined;
 	const serverQueue = songQueue.get(message.guild.id);
 
 	if (message.author.bot) return undefined;
