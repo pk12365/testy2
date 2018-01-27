@@ -71,7 +71,6 @@ bot.on("message", function(message) {
 });
 
 bot.on("message", function(message) {
-	if (!(message.channel instanceof Textchannel)) return undefined;
 	const serverQueue = songQueue.get(message.guild.id);
 
 	if (message.author.bot) return undefined;
