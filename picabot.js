@@ -16,6 +16,7 @@ var currentSongIndex = 0;
 var previousSongIndex = 0;
 var shuffle = false;
 var autoremove = false;
+const serverQueue = songQueue.get(message.guild.id);
 
 bot.on("ready", function() {
 	console.log("Bot ready");
@@ -54,10 +55,6 @@ fs.readFile("save.json", function(err, data) {
 });
 
 bot.on("message", function(message) {
-	if (message.channel.type == "dm" || message.channel.type == "group") {
-		return message.reply("this command is not for dms");
-	}
-	const serverQueue = songQueue.get(message.guild.id);
 
 	if (message.author.bot) return undefined;
 
